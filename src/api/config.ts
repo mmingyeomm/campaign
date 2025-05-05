@@ -11,7 +11,7 @@ export const CONFIG = {
   
   // API endpoints
   api: {
-    base: 'http://127.0.0.1:8080',
+    base: 'https://pulse-be.onrender.com',
     signature: function() { return `${this.base}/api/cloudinary/signature`; },
     content: function() { return `${this.base}/api/contents`; },
     communities: function() { return `${this.base}/api/communities`; }

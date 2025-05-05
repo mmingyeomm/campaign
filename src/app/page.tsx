@@ -113,11 +113,13 @@ export default function Home() {
           <div className="max-w-5xl mx-auto">
             <div className="bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-xl shadow-xl border border-blue-500/20 hover:border-blue-500/40 transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
               <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/3 relative h-40 md:h-auto">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                    <span className="text-7xl font-bold text-white opacity-80">S</span>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-purple-900/40"></div>
+                <div className="md:w-1/3 relative h-40 md:h-auto flex items-center justify-center bg-gradient-to-r from-blue-900/40 to-purple-900/40">
+                  <Image 
+                    src="/images/soonlogo.png" 
+                    alt="Soon Logo" 
+                    fill
+                    style={{ objectFit: 'contain' }}
+                  />
                 </div>
                 <div className="md:w-2/3 p-8">
                   <div className="flex items-center mb-4">
