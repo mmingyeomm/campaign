@@ -11,7 +11,8 @@ import { CloudinaryAPI } from '@/api/cloudinary';
 import { CommunityAPI, Community } from '@/api/community';
 import { CONFIG } from '@/api/config';
 
-export default function SoonCommunity() {
+// Changed component name
+export default function OrcaCommunity() {
   // State for wallet connection
   const [walletConnected, setWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
@@ -223,8 +224,8 @@ export default function SoonCommunity() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/">
             <Image
-              src="/images/pulse_soon_logo.webp"
-              alt="Pulse Soon Logo"
+              src="/images/pulse_orca_logo.png" 
+              alt="Pulse Orca Logo" 
               width={120}
               height={40}
               className="cursor-pointer"
@@ -233,14 +234,14 @@ export default function SoonCommunity() {
           <div className="flex items-center space-x-6">
             <nav>
               <ul className="flex space-x-6">
-                <li><Link href="/" className="hover:text-red-400 transition">Home</Link></li>
-                <li><Link href="/soon" className="text-red-400 font-bold">Soon</Link></li>
-                <li><Link href="/orca" className="hover:text-red-400 transition">Orca</Link></li>
+                <li><Link href="/" className="hover:text-teal-400 transition">Home</Link></li>
+                <li><Link href="/soon" className="hover:text-teal-400 transition">Soon</Link></li>
+                <li><Link href="/orca" className="text-teal-400 font-bold">Orca</Link></li> 
               </ul>
             </nav>
             <button
               onClick={walletConnected ? handleDisconnectWallet : handleConnectWallet}
-              className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-sm font-medium transition"
+              className="px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-sm font-medium transition" // Teal theme
             >
               {walletConnected ? 'Disconnect Wallet' : 'Connect Wallet'}
             </button>
@@ -252,95 +253,96 @@ export default function SoonCommunity() {
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/soonbackground.png"
-            alt="Soon Background"
+            src="/images/orca_background.png" // Orca background
+            alt="Orca Background"
             fill
             style={{ objectFit: 'cover' }}
             className="opacity-30"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-red-950/70 via-red-900/60 to-black/80"></div>
+          {/* Updated overlay to teal gradient */}
+          <div className="absolute inset-0 bg-gradient-to-b from-teal-950/70 via-teal-900/60 to-black/80"></div>
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-red-400 to-red-600 text-transparent bg-clip-text">
-                Soon Community Campaign
+              {/* Updated heading gradient and text */}
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-teal-400 to-teal-600 text-transparent bg-clip-text">
+                Orca Community Campaign
               </h1>
               <p className="text-xl mb-8 text-gray-300">
-                Join our community bootstrapper campaign for Soon and earn rewards by posting quality content. The clock is ticking!
+                Join our community bootstrapper campaign for Orca and earn rewards by posting quality content. The clock is ticking!
               </p>
               
-              {/* Timer Display */}
-              <div className="bg-gradient-to-br from-red-900/40 to-red-800/40 backdrop-blur-md p-6 rounded-xl mb-8 border border-red-500/30 shadow-lg">
-                <h3 className="text-xl font-medium mb-4 text-red-300">Reward Timer</h3>
+              {/* Timer Display - Teal theme */}
+              <div className="bg-gradient-to-br from-teal-900/40 to-teal-800/40 backdrop-blur-md p-6 rounded-xl mb-8 border border-teal-500/30 shadow-lg">
+                <h3 className="text-xl font-medium mb-4 text-teal-300">Reward Timer</h3>
                 <div className="flex justify-center gap-4">
                   <div className="text-center">
-                    <div className="text-3xl font-bold bg-red-900/50 rounded-lg w-16 h-16 flex items-center justify-center border border-red-500/20">
+                    <div className="text-3xl font-bold bg-teal-900/50 rounded-lg w-16 h-16 flex items-center justify-center border border-teal-500/20">
                       {timeLeft.hours.toString().padStart(2, '0')}
                     </div>
-                    <div className="text-xs mt-2 text-red-300">HOURS</div>
+                    <div className="text-xs mt-2 text-teal-300">HOURS</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold bg-red-900/50 rounded-lg w-16 h-16 flex items-center justify-center border border-red-500/20">
+                    <div className="text-3xl font-bold bg-teal-900/50 rounded-lg w-16 h-16 flex items-center justify-center border border-teal-500/20">
                       {timeLeft.minutes.toString().padStart(2, '0')}
                     </div>
-                    <div className="text-xs mt-2 text-red-300">MINUTES</div>
+                    <div className="text-xs mt-2 text-teal-300">MINUTES</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold bg-red-900/50 rounded-lg w-16 h-16 flex items-center justify-center border border-red-500/20">
+                    <div className="text-3xl font-bold bg-teal-900/50 rounded-lg w-16 h-16 flex items-center justify-center border border-teal-500/20">
                       {timeLeft.seconds.toString().padStart(2, '0')}
                     </div>
-                    <div className="text-xs mt-2 text-red-300">SECONDS</div>
+                    <div className="text-xs mt-2 text-teal-300">SECONDS</div>
                   </div>
                 </div>
-                <p className="text-sm mt-4 text-center text-gray-300">
-                  Last poster when timer expires wins the round's rewards!
-                </p>
               </div>
+              
             </div>
-            
+
+            {/* Modernized Info Box - Orca */}
             <div className="md:w-1/2">
               <div className="relative">
-                <div className="relative bg-red-950/60 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-xl overflow-hidden">
+                <div className="relative bg-teal-950/60 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-xl overflow-hidden">
                   <div className="flex items-center mb-6">
-                    <div className="relative w-16 h-16 mr-5 flex-shrink-0 bg-red-800/50 rounded-xl flex items-center justify-center border border-white/10 p-2">
+                    <div className="relative w-16 h-16 mr-5 flex-shrink-0 bg-teal-800/50 rounded-xl flex items-center justify-center border border-white/10 p-2">
                       <Image 
-                        src="/images/soonlogo.png" 
-                        alt="Soon Logo" 
+                        src="/images/orca.png" // Orca Project Logo
+                        alt="Orca Logo" 
                         width={48}
                         height={48}
                         style={{ objectFit: 'contain' }}
                       />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-semibold text-white">Soon Community</h3>
-                      <p className="text-red-400 text-sm font-medium">Featured Project</p>
+                      <h3 className="text-2xl font-semibold text-white">Orca Community</h3>
+                      <p className="text-teal-400 text-sm font-medium">Featured Project</p>
                     </div>
                   </div>
                   <p className="text-gray-200 mb-6 text-base">
-                    Soon is redefining community engagement. Join the movement!
+                    Orca is redefining community engagement. Join the movement!
                   </p>
                   
                   <div className="flex justify-around items-center border-t border-b border-white/10 py-4 mb-6 text-center">
                     <div>
-                      <div className="text-2xl font-bold text-red-300">500</div>
+                      <div className="text-2xl font-bold text-teal-300">500</div>
                       <div className="text-xs text-gray-400 uppercase tracking-wider">PULSE Tokens</div>
                     </div>
                     <div className="border-l border-white/10 h-10"></div>
                     <div>
-                      <div className="text-2xl font-bold text-red-300">{posts.length}</div>
+                      <div className="text-2xl font-bold text-teal-300">{posts.length}</div>
                       <div className="text-xs text-gray-400 uppercase tracking-wider">Participants</div>
                     </div>
                   </div>
 
                   <a 
-                    href="https://soon.com" 
+                    href="https://solana.com/ecosystem/orca" // Orca external link
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full py-3 bg-red-600 hover:bg-red-700 text-white text-center rounded-lg font-semibold text-sm transition duration-300 shadow-md hover:shadow-lg"
+                    className="block w-full py-3 bg-teal-600 hover:bg-teal-700 text-white text-center rounded-lg font-semibold text-sm transition duration-300 shadow-md hover:shadow-lg"
                   >
-                    Learn More About Soon
+                    Learn More About Orca
                   </a>
                 </div>
               </div>
@@ -349,33 +351,34 @@ export default function SoonCommunity() {
         </div>
       </section>
 
-      {/* Content Posting Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-900/80 to-red-900/20 relative">
-        <div className="absolute inset-0 bg-[url('/images/soonbackground.png')] opacity-5 bg-fixed"></div>
+      {/* Content Posting Section - Orca */}
+      <section className="py-20 bg-gradient-to-b from-gray-900/80 to-teal-900/20 relative"> {/* Teal theme */}
+        <div className="absolute inset-0 bg-[url('/images/orca_background.png')] opacity-5 bg-fixed"></div> {/* Orca background */}
         <div className="max-w-4xl mx-auto px-4 relative z-10">
           <div className="mb-14 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-red-400 to-red-600 text-transparent bg-clip-text inline-block">
-              Post About Soon
+            {/* Teal theme */}
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-teal-600 text-transparent bg-clip-text inline-block">
+              Post About Orca
             </h2>
-            <div className="h-1 w-40 bg-gradient-to-r from-red-500 to-red-600 mx-auto"></div>
+            <div className="h-1 w-40 bg-gradient-to-r from-teal-500 to-teal-600 mx-auto"></div>
           </div>
           
-          {/* Post Form */}
+          {/* Post Form - Teal theme */}
           <form onSubmit={handleSubmit} className="mb-12">
-            <div className="bg-gradient-to-br from-red-900/30 to-red-800/30 rounded-xl p-6 mb-4 border border-red-500/20 shadow-lg">
+            <div className="bg-gradient-to-br from-teal-900/30 to-teal-800/30 rounded-xl p-6 mb-4 border border-teal-500/20 shadow-lg">
               <textarea
-                className="w-full bg-red-900/40 border border-red-500/30 rounded-lg p-4 text-white resize-none focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full bg-teal-900/40 border border-teal-500/30 rounded-lg p-4 text-white resize-none focus:outline-none focus:ring-2 focus:ring-teal-500" // Teal theme
                 rows={4}
-                placeholder="Share your thoughts about Soon..."
+                placeholder="Share your thoughts about Orca..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
                 disabled={!walletConnected}
-              ></textarea>
+              />
               
               <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                  <label htmlFor="image-upload" className="cursor-pointer px-4 py-2 rounded-lg bg-red-800/50 hover:bg-red-700/60 border border-red-500/30 text-red-300 text-sm transition">
+                  <label htmlFor="image-upload" className="cursor-pointer px-4 py-2 rounded-lg bg-teal-800/50 hover:bg-teal-700/60 border border-teal-500/30 text-teal-300 text-sm transition"> {/* Teal theme */}
                     {imageFile ? 'Change Image' : 'Upload Image'}
                   </label>
                   <input 
@@ -394,7 +397,7 @@ export default function SoonCommunity() {
                     alt="Preview" 
                     width={64} 
                     height={64} 
-                    className="rounded-lg object-cover border border-red-500/30"
+                    className="rounded-lg object-cover border border-teal-500/30" // Teal theme
                   />
                 )}
               </div>
@@ -403,58 +406,52 @@ export default function SoonCommunity() {
             <button 
               type="submit" 
               disabled={submitting || !walletConnected}
-              className="w-full py-3 mt-2 rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 mt-2 rounded-lg bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 font-bold transition disabled:opacity-50 disabled:cursor-not-allowed" // Teal theme
             >
               {submitting ? 'Submitting...' : (walletConnected ? 'Submit Post' : 'Connect Wallet to Post')}
             </button>
-            {!walletConnected && <p className="text-center text-red-400 mt-2 text-sm">You must connect your wallet to post.</p>}
+            {!walletConnected && <p className="text-center text-teal-400 mt-2 text-sm">You must connect your wallet to post.</p>} {/* Teal theme */}
           </form>
-          
-          {/* Posts Feed */}
+
+          {/* Posts Feed - Teal theme */}
           <div className="space-y-6">
-            <h3 className="text-2xl font-bold mb-6 text-red-300">Recent Community Posts</h3>
+            <h3 className="text-2xl font-bold mb-6 text-teal-300">Recent Community Posts</h3>
             
             {loading && (
-              <div className="py-8 text-center text-gray-400">
-                Loading posts...
-              </div>
+              <p className="text-center text-teal-300">Loading posts...</p>
             )}
-            
             {!loading && posts.length === 0 && (
-              <div className="py-8 text-center text-gray-400">
-                Be the first to post content about Soon!
-              </div>
+              <p className="text-center text-gray-400">No posts yet. Be the first!</p>
             )}
             
             {posts.map((post) => (
-              <div key={post.id} className="bg-gradient-to-br from-red-900/30 to-red-800/30 rounded-xl p-6 border border-red-500/20 shadow-lg">
+              <div key={post.id} className="bg-gradient-to-br from-teal-900/30 to-teal-800/30 rounded-xl p-6 border border-teal-500/20 shadow-lg"> {/* Teal theme */}
                 <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center border border-red-500/30">
+                  <div className="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-center border border-teal-500/30"> {/* Teal theme */}
                     <span className="font-bold text-white">{ContentAPI.formatWalletAddress(post.walletAddress).charAt(0)}</span>
                   </div>
                   <div>
-                    <h4 className="font-bold text-red-300">{ContentAPI.formatWalletAddress(post.walletAddress)}</h4>
+                    <h4 className="font-bold text-teal-300">{ContentAPI.formatWalletAddress(post.walletAddress)}</h4> {/* Teal theme */}
                     <p className="text-xs text-gray-400">
                       {ContentAPI.formatDate(post.createdAt)}
                     </p>
                   </div>
                 </div>
-                <p className="text-gray-200">{post.content}</p>
-                
+                <p className="text-gray-100 mb-4 whitespace-pre-wrap">{post.content}</p>
                 {post.imageURL && (
                   <div className="mt-4">
                     <img 
                       src={post.imageURL} 
                       alt="Content" 
-                      className="max-h-60 rounded-lg border border-red-500/20"
+                      className="max-h-60 rounded-lg border border-teal-500/20" // Teal theme
                     />
                   </div>
                 )}
                 
                 <div className="flex gap-4 mt-4">
-                  <button className="text-gray-400 text-sm hover:text-red-400 transition">Like</button>
-                  <button className="text-gray-400 text-sm hover:text-red-400 transition">Reply</button>
-                  <button className="text-gray-400 text-sm hover:text-red-400 transition">Share</button>
+                  <button className="text-gray-400 text-sm hover:text-teal-400 transition">Like</button> {/* Teal theme */}
+                  <button className="text-gray-400 text-sm hover:text-teal-400 transition">Reply</button> {/* Teal theme */}
+                  <button className="text-gray-400 text-sm hover:text-teal-400 transition">Share</button> {/* Teal theme */}
                 </div>
               </div>
             ))}
@@ -462,40 +459,40 @@ export default function SoonCommunity() {
         </div>
       </section>
 
-      {/* Rewards Section */}
-      <section id="rewards" className="py-20 bg-gradient-to-b from-red-900/20 to-black">
+      {/* Rewards Section - Teal theme */}
+      <section id="rewards" className="py-20 bg-gradient-to-b from-teal-900/20 to-black"> {/* Teal theme */}
         <div className="max-w-6xl mx-auto px-4">
           <div className="mb-14 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-red-400 to-red-600 text-transparent bg-clip-text inline-block">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-teal-600 text-transparent bg-clip-text inline-block"> {/* Teal theme */}
               Campaign Rewards
             </h2>
-            <div className="h-1 w-40 bg-gradient-to-r from-red-500 to-red-600 mx-auto"></div>
+            <div className="h-1 w-40 bg-gradient-to-r from-teal-500 to-teal-600 mx-auto"></div> {/* Teal theme */}
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="bg-gradient-to-br from-red-900/40 to-red-800/40 border border-red-500/30 p-8 rounded-xl shadow-lg hover:border-red-500/50 transition duration-300">
-              <h3 className="text-2xl font-bold mb-6 text-red-300">Winner Rewards</h3>
+            <div className="bg-gradient-to-br from-teal-900/40 to-teal-800/40 border border-teal-500/30 p-8 rounded-xl shadow-lg hover:border-teal-500/50 transition duration-300"> {/* Teal theme */}
+              <h3 className="text-2xl font-bold mb-6 text-teal-300">Winner Rewards</h3> {/* Teal theme */}
               <ul className="space-y-4">
                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mr-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-center mr-4"> {/* Teal theme */}
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
                     <span className="text-lg font-medium text-gray-100">500 PULSE Tokens</span>
-                    <p className="text-sm text-gray-300">Transferable cryptocurrency with real value</p>
+                    <p className="text-sm text-gray-300">Awarded to the last poster</p>
                   </div>
                 </li>
                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mr-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-center mr-4"> {/* Teal theme */}
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
-                    <span className="text-lg font-medium text-gray-100">Exclusive NFT Badge</span>
-                    <p className="text-sm text-gray-300">Unique digital collectible marking your achievement</p>
+                    <span className="text-lg font-medium text-gray-100">Exclusive NFT</span>
+                    <p className="text-sm text-gray-300">A unique digital collectible for the winner</p>
                   </div>
                 </li>
                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mr-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-center mr-4"> {/* Teal theme */}
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
@@ -504,7 +501,7 @@ export default function SoonCommunity() {
                   </div>
                 </li>
                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mr-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-center mr-4"> {/* Teal theme */}
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
@@ -515,20 +512,20 @@ export default function SoonCommunity() {
               </ul>
             </div>
             
-            <div className="bg-gradient-to-br from-red-900/40 to-red-800/40 border border-red-500/30 p-8 rounded-xl shadow-lg hover:border-red-500/50 transition duration-300">
-              <h3 className="text-2xl font-bold mb-6 text-red-300">Active Participant Rewards</h3>
+            <div className="bg-gradient-to-br from-teal-900/40 to-teal-800/40 border border-teal-500/30 p-8 rounded-xl shadow-lg hover:border-teal-500/50 transition duration-300"> {/* Teal theme */}
+              <h3 className="text-2xl font-bold mb-6 text-teal-300">Active Participant Rewards</h3> {/* Teal theme */}
               <ul className="space-y-4">
                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mr-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-center mr-4"> {/* Teal theme */}
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
-                    <span className="text-lg font-medium text-gray-100">50 PULSE Tokens per quality post</span>
+                    <span className="text-lg font-medium text-gray-100">PULSE Tokens per quality post</span>
                     <p className="text-sm text-gray-300">Earn as you contribute valuable content</p>
                   </div>
                 </li>
                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mr-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-center mr-4"> {/* Teal theme */}
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
@@ -537,7 +534,7 @@ export default function SoonCommunity() {
                   </div>
                 </li>
                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mr-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-center mr-4"> {/* Teal theme */}
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
@@ -546,7 +543,7 @@ export default function SoonCommunity() {
                   </div>
                 </li>
                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mr-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-center mr-4"> {/* Teal theme */}
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
@@ -559,35 +556,35 @@ export default function SoonCommunity() {
           </div>
           
           <div className="mt-16 text-center">
-            <p className="text-xl mb-8 text-red-300">Don't miss your chance to participate in this exciting campaign!</p>
-            <a href="#top" className="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 rounded-full font-bold text-lg inline-block transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <p className="text-xl mb-8 text-teal-300">Don't miss your chance to participate in this exciting campaign!</p> {/* Teal theme */}
+            <a href="#top" className="px-8 py-3 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 rounded-full font-bold text-lg inline-block transition-all duration-300 transform hover:scale-105 shadow-lg"> {/* Teal theme */}
               Start Posting Now
             </a>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-black/80 py-10 border-t border-red-900/30">
+      {/* Footer - Teal theme */}
+      <footer className="bg-black/80 py-10 border-t border-teal-900/30"> {/* Teal theme */}
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
               <Image
-                src="/images/pulse_soon_logo.webp"
-                alt="Pulse Soon Logo"
+                src="/images/pulse_orca_logo.png" 
+                alt="Pulse Orca Logo" 
                 width={100}
                 height={30}
               />
-              <p className="mt-2 text-red-300">Empowering communities through engagement</p>
+              <p className="mt-2 text-teal-300">Empowering communities through engagement</p> {/* Teal theme */}
             </div>
             <div className="flex space-x-6">
-              <a href="#" className="text-gray-300 hover:text-red-400 transition">Twitter</a>
-              <a href="#" className="text-gray-300 hover:text-red-400 transition">Discord</a>
-              <a href="#" className="text-gray-300 hover:text-red-400 transition">Medium</a>
-              <a href="#" className="text-gray-300 hover:text-red-400 transition">GitHub</a>
+              <a href="#" className="text-gray-300 hover:text-teal-400 transition">Twitter</a> {/* Teal theme */}
+              <a href="#" className="text-gray-300 hover:text-teal-400 transition">Discord</a> {/* Teal theme */}
+              <a href="#" className="text-gray-300 hover:text-teal-400 transition">Medium</a> {/* Teal theme */}
+              <a href="#" className="text-gray-300 hover:text-teal-400 transition">GitHub</a> {/* Teal theme */}
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-red-800 text-center text-gray-400">
+          <div className="mt-8 pt-8 border-t border-teal-800 text-center text-gray-400"> {/* Teal theme */}
             <p>© {new Date().getFullYear()} Pulse. All rights reserved.</p>
           </div>
         </div>

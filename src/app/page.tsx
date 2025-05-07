@@ -51,7 +51,7 @@ export default function Home() {
             <ul className="flex space-x-6">
               <li><Link href="/" className="text-blue-400 font-bold">Home</Link></li>
               <li><Link href="/soon" className="hover:text-blue-400 transition">Soon</Link></li>
-              <li><Link href="/round3" className="hover:text-blue-400 transition">Round 3</Link></li>
+              <li><Link href="/orca" className="hover:text-blue-400 transition">Orca</Link></li>
               <li><Link href="#about" className="hover:text-blue-400 transition">About</Link></li>
             </ul>
           </nav>
@@ -168,6 +168,66 @@ export default function Home() {
                 </div>
               </div>
             </div>
+
+            {/* Orca Community Card - Teal Theme */}
+            <div className="mt-12 bg-gradient-to-br from-teal-900/30 to-teal-800/30 rounded-xl shadow-xl border border-teal-500/20 hover:border-teal-500/40 transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
+              <div className="flex flex-col md:flex-row">
+                <div className="md:w-1/3 relative h-40 md:h-auto flex items-center justify-center bg-gradient-to-r from-teal-900/40 to-teal-800/40">
+                  <Image 
+                    src="/images/orca.png" 
+                    alt="Orca Logo" 
+                    fill
+                    style={{ objectFit: 'contain' }}
+                  />
+                </div>
+                <div className="md:w-2/3 p-8">
+                  <div className="flex items-center mb-4">
+                    <h3 className="text-2xl font-bold text-white">Orca Community</h3>
+                    <span className="ml-3 px-3 py-1 bg-teal-500/20 text-teal-300 text-xs rounded-full border border-teal-500/30">
+                      Active
+                    </span>
+                  </div>
+                  <p className="text-gray-200 mb-6">
+                    Orca is a leading AMM on Solana, known for its user-friendly interface and capital efficiency. Join our campaign to support Orca and earn rewards!
+                  </p>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                    <div className="bg-teal-900/40 p-3 rounded-lg text-center">
+                      <div className="text-xl font-bold text-teal-300">23</div>
+                      <div className="text-xs text-gray-300">Participants</div>
+                    </div>
+                    <div className="bg-teal-900/40 p-3 rounded-lg text-center">
+                      <div className="text-xl font-bold text-teal-300">500</div>
+                      <div className="text-xs text-gray-300">PULSE Tokens</div>
+                    </div>
+                    <div className="bg-teal-900/40 p-3 rounded-lg text-center">
+                      <div className="text-xl font-bold text-teal-300">{timeLeft}</div>
+                      <div className="text-xs text-gray-300">Time Left</div>
+                    </div>
+                    <div className="bg-teal-900/40 p-3 rounded-lg text-center">
+                      <div className="text-xl font-bold text-teal-300">85</div>
+                      <div className="text-xs text-gray-300">Posts</div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    <Link 
+                      href="/orca" 
+                      className="px-5 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-sm font-medium transition-all duration-300"
+                    >
+                      Join Campaign
+                    </Link>
+                    <a 
+                      href="https://solana.com/ecosystem/orca" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="px-5 py-2 rounded-lg bg-teal-900/40 hover:bg-teal-800/50 text-sm font-medium border border-teal-500/30 transition-all duration-300"
+                    >
+                      Learn About Orca
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
