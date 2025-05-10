@@ -199,7 +199,7 @@ export default function OrcaCommunity() {
       }
       
       // Submit content with image URL if available
-      await ContentAPI.submitContent(content, imageUrl, walletAddress || undefined);
+      await ContentAPI.submitContent(content, CONFIG.fixed.communityId, imageUrl, walletAddress || undefined);
       
       // Reset the form
       resetForm();
@@ -234,9 +234,10 @@ export default function OrcaCommunity() {
           <div className="flex items-center space-x-6">
             <nav>
               <ul className="flex space-x-6">
-                <li><Link href="/" className="hover:text-teal-400 transition">Home</Link></li>
-                <li><Link href="/soon" className="hover:text-teal-400 transition">Soon</Link></li>
-                <li><Link href="/orca" className="text-teal-400 font-bold">Orca</Link></li> 
+                <li><Link href="/" className="hover:text-cyan-400 transition">Home</Link></li>
+                <li><Link href="/soon" className="hover:text-cyan-400 transition">Soon</Link></li>
+                <li><Link href="/orca" className="text-cyan-400 font-bold">Orca</Link></li>
+                <li><Link href="/iq6900" className="hover:text-cyan-400 transition">IQ6900</Link></li>
               </ul>
             </nav>
             <button

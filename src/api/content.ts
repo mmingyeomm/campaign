@@ -15,11 +15,23 @@ export interface Content {
 // Content API service
 export const ContentAPI = {
   // Fetch all contents from API
-  async fetchAllContents(): Promise<Content[]> {
+  async fetchAllContents(communityId?: string): Promise<Content[]> {
     try {
       // Add timestamp to prevent caching
       const timestamp = new Date().getTime();
-      const response = await axios.get(`${CONFIG.api.content()}?t=${timestamp}`);
+      let url;
+      
+      if (communityId) {
+        // Use the correct endpoint for community-specific contents
+        // The backend route is: /api/communities/{community_id}/contents
+        url = `${CONFIG.api.base}/api/communities/${communityId}/contents?t=${timestamp}`;
+      } else {
+        // Fetch all contents if no community ID is provided
+        url = `${CONFIG.api.content()}?t=${timestamp}`;
+      }
+      
+      console.log("Fetching content from URL:", url);
+      const response = await axios.get(url);
       
       if (response.data && Array.isArray(response.data)) {
         return response.data;
@@ -53,11 +65,11 @@ export const ContentAPI = {
   },
 
   // Submit new content
-  async submitContent(text: string, imageUrl?: string, walletAddress?: string): Promise<any> {
+  async submitContent(text: string, communityId: string, imageUrl?: string, walletAddress?: string): Promise<any> {
     const requestData = {
       content: text,
       senderId: CONFIG.fixed.senderId,
-      communityId: CONFIG.fixed.communityId,
+      communityId: communityId, // Use the provided communityId
       imageURL: imageUrl || null,
       walletAddress: walletAddress || CONFIG.fixed.walletAddress
     };

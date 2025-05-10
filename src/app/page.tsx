@@ -3,12 +3,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { CommunityAPI } from '@/api/community';
+import { CommunityAPI, Community } from '@/api/community';
+import { ContentAPI } from '@/api/content';
 import { TimerAPI } from '@/api/timer';
 import { CONFIG } from '@/api/config';
 
+const IQ6900_COMMUNITY_ID = "a8f3e6d1-7b92-4c5f-9e48-d67f0a2b3c4e";
+
 export default function Home() {
-  const [timeLeft, setTimeLeft] = useState<string>('00:00:00');
+  const [soonTimeLeft, setSoonTimeLeft] = useState<string>('00:00:00');
+  const [orcaTimeLeft, setOrcaTimeLeft] = useState<string>('00:00:00');
+  const [orcaCommunityData, setOrcaCommunityData] = useState<Community | null>(null);
+  const [orcaPostsCount, setOrcaPostsCount] = useState<number>(0);
+
+  const [iq6900TimeLeft, setIq6900TimeLeft] = useState<string>('00:00:00');
+  const [iq6900CommunityData, setIq6900CommunityData] = useState<Community | null>(null);
+  const [iq6900PostsCount, setIq6900PostsCount] = useState<number>(0);
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
     CommunityAPI.fetchCommunityById(CONFIG.fixed.communityId)
@@ -24,12 +35,83 @@ export default function Home() {
             remainingSec = community.timeLimit * 60;
           }
           const hms = TimerAPI.secondsToHMS(remainingSec);
-          setTimeLeft(TimerAPI.formatTime(hms));
+          setSoonTimeLeft(TimerAPI.formatTime(hms));
         };
         updateTimer();
         interval = setInterval(updateTimer, 1000);
       })
       .catch(console.error);
+    return () => clearInterval(interval);
+  }, []);
+
+  const ORCA_COMMUNITY_ID = "a485968a-751d-4545-9bbb-740d55875707";
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    const fetchOrcaData = async () => {
+      try {
+        const community = await CommunityAPI.fetchCommunityById(ORCA_COMMUNITY_ID);
+        setOrcaCommunityData(community);
+        if (community) {
+          const contents = await ContentAPI.fetchAllContents(ORCA_COMMUNITY_ID);
+          setOrcaPostsCount(contents.length);
+          const updateTimer = () => {
+            const now = new Date();
+            let remainingSec: number;
+            if (contents.length > 0 && contents[0].createdAt) {
+              const lastPostTime = new Date(contents[0].createdAt).getTime();
+              remainingSec = Math.max(0, (community.timeLimit * 60) - Math.floor((now.getTime() - lastPostTime) / 1000));
+            } else if (community.lastMessageTime) {
+                const elapsed = (now.getTime() - new Date(community.lastMessageTime).getTime()) / 1000;
+                remainingSec = Math.max(0, community.timeLimit * 60 - Math.floor(elapsed));
+            } else {
+                remainingSec = community.timeLimit * 60;
+            }
+            const hms = TimerAPI.secondsToHMS(remainingSec);
+            setOrcaTimeLeft(TimerAPI.formatTime(hms));
+          };
+          updateTimer();
+          interval = setInterval(updateTimer, 1000);
+        }
+      } catch (error) {
+        console.error('Failed to fetch Orca community data for homepage:', error);
+      }
+    };
+    fetchOrcaData();
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    const fetchIQ6900Data = async () => {
+      try {
+        const community = await CommunityAPI.fetchCommunityById(IQ6900_COMMUNITY_ID);
+        setIq6900CommunityData(community);
+        if (community) {
+          const contents = await ContentAPI.fetchAllContents(IQ6900_COMMUNITY_ID);
+          setIq6900PostsCount(contents.length);
+          const updateTimer = () => {
+            const now = new Date();
+            let remainingSec: number;
+            if (contents.length > 0 && contents[0].createdAt) {
+              const lastPostTime = new Date(contents[0].createdAt).getTime();
+              remainingSec = Math.max(0, (community.timeLimit * 60) - Math.floor((now.getTime() - lastPostTime) / 1000));
+            } else if (community.lastMessageTime) {
+                const elapsed = (now.getTime() - new Date(community.lastMessageTime).getTime()) / 1000;
+                remainingSec = Math.max(0, community.timeLimit * 60 - Math.floor(elapsed));
+            } else {
+                remainingSec = community.timeLimit * 60;
+            }
+            const hms = TimerAPI.secondsToHMS(remainingSec);
+            setIq6900TimeLeft(TimerAPI.formatTime(hms));
+          };
+          updateTimer();
+          interval = setInterval(updateTimer, 1000);
+        }
+      } catch (error) {
+        console.error('Failed to fetch IQ6900 community data for homepage:', error);
+      }
+    };
+    fetchIQ6900Data();
     return () => clearInterval(interval);
   }, []);
 
@@ -52,6 +134,7 @@ export default function Home() {
               <li><Link href="/" className="text-blue-400 font-bold">Home</Link></li>
               <li><Link href="/soon" className="hover:text-blue-400 transition">Soon</Link></li>
               <li><Link href="/orca" className="hover:text-blue-400 transition">Orca</Link></li>
+              <li><Link href="/iq6900" className="hover:text-blue-400 transition">IQ6900</Link></li>
               <li><Link href="#about" className="hover:text-blue-400 transition">About</Link></li>
             </ul>
           </nav>
@@ -141,7 +224,7 @@ export default function Home() {
                       <div className="text-xs text-gray-300">PULSE Tokens</div>
                     </div>
                     <div className="bg-blue-900/40 p-3 rounded-lg text-center">
-                      <div className="text-xl font-bold text-blue-300">{timeLeft}</div>
+                      <div className="text-xl font-bold text-blue-300">{soonTimeLeft}</div>
                       <div className="text-xs text-gray-300">Time Left</div>
                     </div>
                     <div className="bg-blue-900/40 p-3 rounded-lg text-center">
@@ -182,29 +265,29 @@ export default function Home() {
                 </div>
                 <div className="md:w-2/3 p-8">
                   <div className="flex items-center mb-4">
-                    <h3 className="text-2xl font-bold text-white">Orca Community</h3>
+                    <h3 className="text-2xl font-bold text-white">{orcaCommunityData?.name || 'Orca Community'}</h3>
                     <span className="ml-3 px-3 py-1 bg-teal-500/20 text-teal-300 text-xs rounded-full border border-teal-500/30">
                       Active
                     </span>
                   </div>
                   <p className="text-gray-200 mb-6">
-                    Orca is a leading AMM on Solana, known for its user-friendly interface and capital efficiency. Join our campaign to support Orca and earn rewards!
+                    {orcaCommunityData?.description || 'Orca is a leading AMM on Solana, known for its user-friendly interface and capital efficiency. Join our campaign to support Orca and earn rewards!'}
                   </p>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
                     <div className="bg-teal-900/40 p-3 rounded-lg text-center">
-                      <div className="text-xl font-bold text-teal-300">23</div>
+                      <div className="text-xl font-bold text-teal-300">{orcaPostsCount > 0 ? orcaPostsCount : '20+'}</div>
                       <div className="text-xs text-gray-300">Participants</div>
                     </div>
                     <div className="bg-teal-900/40 p-3 rounded-lg text-center">
-                      <div className="text-xl font-bold text-teal-300">500</div>
+                      <div className="text-xl font-bold text-teal-300">{orcaCommunityData?.bountyAmount || '500'}</div>
                       <div className="text-xs text-gray-300">PULSE Tokens</div>
                     </div>
                     <div className="bg-teal-900/40 p-3 rounded-lg text-center">
-                      <div className="text-xl font-bold text-teal-300">{timeLeft}</div>
+                      <div className="text-xl font-bold text-teal-300">{orcaTimeLeft}</div>
                       <div className="text-xs text-gray-300">Time Left</div>
                     </div>
                     <div className="bg-teal-900/40 p-3 rounded-lg text-center">
-                      <div className="text-xl font-bold text-teal-300">85</div>
+                      <div className="text-xl font-bold text-teal-300">{orcaPostsCount}</div>
                       <div className="text-xs text-gray-300">Posts</div>
                     </div>
                   </div>
@@ -216,12 +299,71 @@ export default function Home() {
                       Join Campaign
                     </Link>
                     <a 
-                      href="https://solana.com/ecosystem/orca" 
+                      href={orcaCommunityData?.imageURL || "https://solana.com/ecosystem/orca"}
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="px-5 py-2 rounded-lg bg-teal-900/40 hover:bg-teal-800/50 text-sm font-medium border border-teal-500/30 transition-all duration-300"
                     >
                       Learn About Orca
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* IQ6900 Community Card - Neon Green/Black Theme */}
+            <div className="mt-12 bg-gray-900/70 rounded-xl shadow-xl border border-green-700/50 hover:border-lime-400/70 transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
+              <div className="flex flex-col md:flex-row">
+                <div className="md:w-1/3 relative h-40 md:h-auto flex items-center justify-center bg-black/50">
+                  <Image 
+                    src="/images/iq6900logo.jpg" 
+                    alt="IQ6900 Logo" 
+                    fill 
+                    style={{ objectFit: 'contain', padding: '1rem' }} 
+                  />
+                </div>
+                <div className="md:w-2/3 p-8">
+                  <div className="flex items-center mb-4">
+                    <h3 className="text-2xl font-bold text-lime-400">{iq6900CommunityData?.name || 'IQ6900 Community'}</h3>
+                    <span className="ml-3 px-3 py-1 bg-green-700/30 text-lime-300 text-xs rounded-full border border-green-600/50">
+                      Active
+                    </span>
+                  </div>
+                  <p className="text-gray-300 mb-6">
+                    {iq6900CommunityData?.description || 'IQ6900: Exploring the frontiers of decentralized intelligence. Join the campaign!'}
+                  </p>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                    <div className="bg-gray-800/60 p-3 rounded-lg text-center border border-green-800/50">
+                      <div className="text-xl font-bold text-lime-400">{iq6900PostsCount > 0 ? iq6900PostsCount : '0'}</div>
+                      <div className="text-xs text-gray-400">Participants</div>
+                    </div>
+                    <div className="bg-gray-800/60 p-3 rounded-lg text-center border border-green-800/50">
+                      <div className="text-xl font-bold text-lime-400">{iq6900CommunityData?.bountyAmount || '100'}</div>
+                      <div className="text-xs text-gray-400">PULSE Tokens</div>
+                    </div>
+                    <div className="bg-gray-800/60 p-3 rounded-lg text-center border border-green-800/50">
+                      <div className="text-xl font-bold text-lime-400">{iq6900TimeLeft}</div>
+                      <div className="text-xs text-gray-400">Time Left</div>
+                    </div>
+                    <div className="bg-gray-800/60 p-3 rounded-lg text-center border border-green-800/50">
+                      <div className="text-xl font-bold text-lime-400">{iq6900PostsCount}</div>
+                      <div className="text-xs text-gray-400">Posts</div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    <Link 
+                      href="/iq6900" 
+                      className="px-5 py-2 rounded-lg bg-lime-400 hover:bg-lime-500 text-black text-sm font-semibold transition-all duration-300"
+                    >
+                      Join Campaign
+                    </Link>
+                    <a 
+                      href="#"
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="px-5 py-2 rounded-lg bg-emerald-300 hover:bg-emerald-400 text-green-900 text-sm font-semibold border border-green-700/80 transition-all duration-300"
+                    >
+                      Learn About IQ6900
                     </a>
                   </div>
                 </div>

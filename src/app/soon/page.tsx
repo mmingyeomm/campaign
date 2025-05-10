@@ -198,7 +198,7 @@ export default function SoonCommunity() {
       }
       
       // Submit content with image URL if available
-      await ContentAPI.submitContent(content, imageUrl, walletAddress || undefined);
+      await ContentAPI.submitContent(content, CONFIG.fixed.communityId, imageUrl, walletAddress || undefined);
       
       // Reset the form
       resetForm();
@@ -236,6 +236,7 @@ export default function SoonCommunity() {
                 <li><Link href="/" className="hover:text-red-400 transition">Home</Link></li>
                 <li><Link href="/soon" className="text-red-400 font-bold">Soon</Link></li>
                 <li><Link href="/orca" className="hover:text-red-400 transition">Orca</Link></li>
+                <li><Link href="/iq6900" className="hover:text-red-400 transition">IQ6900</Link></li>
               </ul>
             </nav>
             <button
