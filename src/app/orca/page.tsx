@@ -11,6 +11,9 @@ import { CloudinaryAPI } from '@/api/cloudinary';
 import { CommunityAPI, Community } from '@/api/community';
 import { CONFIG } from '@/api/config';
 
+// Define Orca community ID constant
+const ORCA_COMMUNITY_ID = "a485968a-751d-4545-9bbb-740d55875707";
+
 // Changed component name
 export default function OrcaCommunity() {
   // State for wallet connection
@@ -46,7 +49,7 @@ export default function OrcaCommunity() {
     loadContent();
     
     // Fetch community info (to get dynamic timeLimit)
-    CommunityAPI.fetchCommunityById(CONFIG.fixed.communityId)
+    CommunityAPI.fetchCommunityById(ORCA_COMMUNITY_ID)
       .then(c => { if (c) setCommunity(c); })
       .catch(console.error);
     
@@ -106,7 +109,7 @@ export default function OrcaCommunity() {
   const loadContent = async () => {
     try {
       setLoading(true);
-      const contents = await ContentAPI.fetchAllContents();
+      const contents = await ContentAPI.fetchAllContents(ORCA_COMMUNITY_ID);
       
       // Sort by createdAt in descending order (newest first)
       contents.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -199,7 +202,7 @@ export default function OrcaCommunity() {
       }
       
       // Submit content with image URL if available
-      await ContentAPI.submitContent(content, CONFIG.fixed.communityId, imageUrl, walletAddress || undefined);
+      await ContentAPI.submitContent(content, ORCA_COMMUNITY_ID, imageUrl, walletAddress || undefined);
       
       // Reset the form
       resetForm();
@@ -327,7 +330,7 @@ export default function OrcaCommunity() {
                   
                   <div className="flex justify-around items-center border-t border-b border-white/10 py-4 mb-6 text-center">
                     <div>
-                      <div className="text-2xl font-bold text-teal-300">500</div>
+                      <div className="text-2xl font-bold text-teal-300">{community?.bountyAmount ? parseFloat(community.bountyAmount).toFixed(2) : '0.00'}</div>
                       <div className="text-xs text-gray-400 uppercase tracking-wider">PULSE Tokens</div>
                     </div>
                     <div className="border-l border-white/10 h-10"></div>

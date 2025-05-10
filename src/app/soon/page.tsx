@@ -11,6 +11,9 @@ import { CloudinaryAPI } from '@/api/cloudinary';
 import { CommunityAPI, Community } from '@/api/community';
 import { CONFIG } from '@/api/config';
 
+// Define Soon community ID constant
+const SOON_COMMUNITY_ID = "f2e8d7c6-9b5a-4183-b0c9-1d2e3f4a5b6c";
+
 export default function SoonCommunity() {
   // State for wallet connection
   const [walletConnected, setWalletConnected] = useState(false);
@@ -45,7 +48,7 @@ export default function SoonCommunity() {
     loadContent();
     
     // Fetch community info (to get dynamic timeLimit)
-    CommunityAPI.fetchCommunityById(CONFIG.fixed.communityId)
+    CommunityAPI.fetchCommunityById(SOON_COMMUNITY_ID)
       .then(c => { if (c) setCommunity(c); })
       .catch(console.error);
     
@@ -105,7 +108,7 @@ export default function SoonCommunity() {
   const loadContent = async () => {
     try {
       setLoading(true);
-      const contents = await ContentAPI.fetchAllContents();
+      const contents = await ContentAPI.fetchAllContents(SOON_COMMUNITY_ID);
       
       // Sort by createdAt in descending order (newest first)
       contents.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -198,7 +201,7 @@ export default function SoonCommunity() {
       }
       
       // Submit content with image URL if available
-      await ContentAPI.submitContent(content, CONFIG.fixed.communityId, imageUrl, walletAddress || undefined);
+      await ContentAPI.submitContent(content, SOON_COMMUNITY_ID, imageUrl, walletAddress || undefined);
       
       // Reset the form
       resetForm();
@@ -325,7 +328,7 @@ export default function SoonCommunity() {
                   
                   <div className="flex justify-around items-center border-t border-b border-white/10 py-4 mb-6 text-center">
                     <div>
-                      <div className="text-2xl font-bold text-red-300">500</div>
+                      <div className="text-2xl font-bold text-red-300">{community?.bountyAmount ? parseFloat(community.bountyAmount).toFixed(2) : '100.00'}</div>
                       <div className="text-xs text-gray-400 uppercase tracking-wider">PULSE Tokens</div>
                     </div>
                     <div className="border-l border-white/10 h-10"></div>
