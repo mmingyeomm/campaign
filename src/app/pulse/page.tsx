@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import axios from 'axios';
 import { ContentAPI, Content } from '@/api/content';
-import { WalletAPI } from '@/api/wallet';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { TimerAPI, TimerState } from '@/api/timer';
 import { CloudinaryAPI } from '@/api/cloudinary';
 import { CommunityAPI, Community } from '@/api/community';
@@ -16,9 +17,9 @@ import { toast } from 'react-toastify';
 const PULSE_COMMUNITY_ID = "f47ac10b-58cc-4372-a567-0e02b2c3d479"; 
 
 export default function PulseCommunity() {
-  // State for wallet connection
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  // Use Solana Wallet Adapter hooks
+  const { publicKey, connected, connect, disconnect } = useWallet();
+  const walletAddress = useMemo(() => publicKey?.toBase58(), [publicKey]);
   
   // Timer state
   const [timeLeft, setTimeLeft] = useState<TimerState>({
@@ -42,13 +43,6 @@ export default function PulseCommunity() {
 
   // Initialize wallet and load data
   useEffect(() => {
-    // Check if wallet is already connected
-    const storedKey = WalletAPI.getPublicKey();
-    if (storedKey) {
-      setWalletConnected(true);
-      setWalletAddress(storedKey);
-    }
-    
     // Load initial content
     loadContent();
     
@@ -86,27 +80,23 @@ export default function PulseCommunity() {
   const updateTimer = () => {
     const now = new Date();
     let remainingSec: number;
+    
     if (community) {
+      const timeLimit = community.timeLimit || (24 * 60); // Default 24h if null
+      
       if (posts.length === 0) {
         // No posts yet, start full timeLimit
-        remainingSec = community.timeLimit * 60;
+        remainingSec = timeLimit * 60;
       } else {
-        // Get the latest post timestamp
-        const latestPost = [...posts].sort((a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        )[0];
+        // Get the latest post timestamp (already sorted descending)
+        const latestPost = posts[0];
         const elapsed = Math.floor((now.getTime() - new Date(latestPost.createdAt).getTime()) / 1000);
-        remainingSec = Math.max(0, community.timeLimit * 60 - elapsed);
+        remainingSec = Math.max(0, timeLimit * 60 - elapsed);
       }
       setTimeLeft(TimerAPI.secondsToHMS(remainingSec));
     } else {
-      // Fallback to existing behavior if community not loaded
-      if (posts.length === 0) {
-        setTimeLeft(TimerAPI.getInitialState());
-      } else {
-        // Assuming the first post in the sorted list is the latest for fallback
-        setTimeLeft(TimerAPI.calculateTimeLeft(posts[0].createdAt)); 
-      }
+      // Fallback if community data not loaded yet
+      setTimeLeft({ hours: 0, minutes: 0, seconds: 0 }); // Or show a loading state
     }
   };
 
@@ -120,37 +110,12 @@ export default function PulseCommunity() {
       contents.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
       setPosts(contents);
-      
-      // Update timer based on latest post - This logic might need review based on how timer reset should work
-      if (contents.length > 0) {
-        const newTimeLeft = TimerAPI.calculateTimeLeft(contents[0].createdAt);
-        setTimeLeft(newTimeLeft);
-      }
     } catch (error) {
       console.error('Error loading content:', error);
+      toast.error('Failed to load content.');
     } finally {
       setLoading(false);
     }
-  };
-
-  // Handle wallet connection
-  const handleConnectWallet = async () => {
-    try {
-      const publicKey = await WalletAPI.connect();
-      if (publicKey) {
-        setWalletConnected(true);
-        setWalletAddress(publicKey);
-      }
-    } catch (error) {
-      console.error('Failed to connect wallet:', error);
-    }
-  };
-
-  // Handle wallet disconnection
-  const handleDisconnectWallet = () => {
-    WalletAPI.disconnect();
-    setWalletConnected(false);
-    setWalletAddress(null);
   };
 
   // Handle image selection
@@ -181,8 +146,8 @@ export default function PulseCommunity() {
     
     if (!content.trim()) return;
     
-    if (!walletConnected || !walletAddress) {
-      alert('Please connect your wallet first!');
+    if (!connected || !walletAddress) {
+      toast.error('Please connect your wallet first!');
       return;
     }
     
@@ -198,7 +163,7 @@ export default function PulseCommunity() {
           console.log('Image uploaded successfully:', imageUrl);
         } catch (uploadError) {
           console.error('Image upload failed:', uploadError);
-          // Ask if user wants to continue without the image
+          toast.error('Image upload failed. Please try again or submit without it.');
           if (!confirm('Image upload failed. Do you want to continue without the image?')) {
             setSubmitting(false);
             return; // Stop submission if user cancels
@@ -222,40 +187,29 @@ export default function PulseCommunity() {
       // Scroll to the timer
       timerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       
-      
-      
       // Display success toast using react-toastify
       const twitterBaseUrl = "https://x.com/intent/tweet?in_reply_to=1921986313315573783&text=";
-      const encodedText = encodeURIComponent(content); 
-
-      const PostOnXButton = () => (
-        <button 
-          onClick={() => window.open(twitterBaseUrl + encodedText, '_blank')}
-          // Changed background to indigo/purple gradient
-          className="mt-3 w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 transition-all duration-150 ease-in-out shadow-md hover:shadow-lg"
-        >
-          Post on X!
-        </button>
-      );
+      const encodedText = encodeURIComponent(content);
+      const tweetUrl = `${twitterBaseUrl}${encodedText}`;
 
       toast.success(
-        <div className="flex flex-col items-center text-center p-2">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-green-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p className="font-semibold text-lg mb-1">Content Submitted!</p> 
-          <p className="text-xs text-yellow-400 mb-2 px-2">Important: X Post is mandatory to be eligible for rewards.</p> 
-          <PostOnXButton />
-        </div>,
-        {
-          icon: false
-        } 
+        <div>
+          Post submitted! Remember to post on X.
+          <a href={tweetUrl} target="_blank" rel="noopener noreferrer" className="ml-2 font-bold text-blue-400 hover:underline">
+            Tweet Now
+          </a>
+        </div>, 
+        { autoClose: 10000 } // Keep toast open longer
       );
 
     } catch (error) {
       console.error('Error submitting content:', error);
-      // Use react-toastify for errors
-      toast.error('Failed to submit content. Please try again.'); 
+      const errorMessage = (error instanceof Error) ? error.message : 'An unknown error occurred.';
+      if (errorMessage.includes("last content is over")) {
+        toast.error('Posting limit reached. Please wait before posting again.');
+      } else {
+        toast.error(`Failed to submit post: ${errorMessage}`);
+      }
     } finally {
       setSubmitting(false);
     }
@@ -296,13 +250,11 @@ export default function PulseCommunity() {
                 {/* Removed Home Link */}
               </ul>
             </nav>
-            <button
-              onClick={walletConnected ? handleDisconnectWallet : handleConnectWallet}
-              className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(147,51,234,0.5)] shadow-lg relative overflow-hidden group"
-            >
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              <span className="relative z-10">{walletConnected ? 'Disconnect Wallet' : 'Connect Wallet'}</span>
-            </button>
+            <WalletMultiButton style={{ 
+              backgroundColor: 'transparent', 
+              border: 'none',
+              padding: 0
+            }} className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(147,51,234,0.5)] shadow-lg relative overflow-hidden group" />
           </div>
         </div>
       </header>
@@ -451,7 +403,7 @@ export default function PulseCommunity() {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
-                disabled={!walletConnected}
+                disabled={!connected}
               ></textarea>
               
               <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -465,7 +417,7 @@ export default function PulseCommunity() {
                     accept="image/*"
                     onChange={handleImageChange}
                     className="hidden"
-                    disabled={!walletConnected}
+                    disabled={!connected}
                   />
                   {imageFile && <span className="ml-3 text-sm text-gray-300">{imageFile.name}</span>}
                 </div>
@@ -487,13 +439,13 @@ export default function PulseCommunity() {
             
             <button 
               type="submit" 
-              disabled={submitting || !walletConnected}
+              disabled={submitting || !connected}
               className="w-full py-3 mt-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-white transform hover:scale-105 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] relative overflow-hidden group"
             >
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              <span className="relative z-10">{submitting ? 'Submitting...' : (walletConnected ? 'Submit Post' : 'Connect Wallet to Post')}</span>
+              <span className="relative z-10">{submitting ? 'Submitting...' : (connected ? 'Submit Post' : 'Connect Wallet to Post')}</span>
             </button>
-            {!walletConnected && <p className="text-center text-purple-400 mt-2 text-sm">You must connect your wallet to post.</p>}
+            {!connected && <p className="text-center text-purple-400 mt-2 text-sm">You must connect your wallet to post.</p>}
             {/* Warning about X post requirement */}
             <p className="mt-3 text-center text-yellow-500 text-xl font-xl flex items-center justify-center gap-1.5">
              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6">

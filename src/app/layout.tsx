@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { WalletContextProvider } from './WalletContextProvider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -35,20 +36,22 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
-        <ToastContainer 
-          position="top-center" 
-          autoClose={false}
-          hideProgressBar={true}
-          newestOnTop={false} 
-          closeOnClick 
-          rtl={false} 
-          pauseOnFocusLoss 
-          draggable 
-          pauseOnHover 
-          theme="dark" 
-          toastClassName="glass-toast"
-        />
+        <WalletContextProvider>
+          {children}
+          <ToastContainer 
+            position="top-center" 
+            autoClose={false}
+            hideProgressBar={true}
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+            theme="dark" 
+            toastClassName="glass-toast"
+          />
+        </WalletContextProvider>
       </body>
     </html>
   );
