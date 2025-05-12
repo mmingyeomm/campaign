@@ -190,16 +190,31 @@ export default function PulseCommunity() {
       // Display success toast using react-toastify
       const twitterBaseUrl = "https://x.com/intent/tweet?in_reply_to=1921986313315573783&text=";
       const encodedText = encodeURIComponent(content);
-      const tweetUrl = `${twitterBaseUrl}${encodedText}`;
+      // const tweetUrl = `${twitterBaseUrl}${encodedText}`; // Keep URL logic if needed
+
+      const PostOnXButton = () => (
+        <button 
+          onClick={() => window.open(twitterBaseUrl + encodedText, '_blank')}
+          // You might want to adjust the styling here to match your preference
+          className="mt-3 w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 transition-all duration-150 ease-in-out shadow-md hover:shadow-lg"
+        >
+          Post on X!
+        </button>
+      );
 
       toast.success(
-        <div>
-          Post submitted! Remember to post on X.
-          <a href={tweetUrl} target="_blank" rel="noopener noreferrer" className="ml-2 font-bold text-blue-400 hover:underline">
-            Tweet Now
-          </a>
-        </div>, 
-        { autoClose: 10000 } // Keep toast open longer
+        <div className="flex flex-col items-center text-center p-2">
+           <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-green-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+           </svg>
+           <p className="font-semibold text-lg mb-1">Content Submitted!</p> 
+           <p className="text-xs text-yellow-400 mb-2 px-2">Important: X Post is mandatory to be eligible for rewards.</p> 
+           <PostOnXButton />
+         </div>,
+         {
+           icon: false, // Keep icon false if you have a custom one in the div
+           autoClose: 10000 // Keep toast open longer
+         } 
       );
 
     } catch (error) {
@@ -445,7 +460,7 @@ export default function PulseCommunity() {
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
               <span className="relative z-10">{submitting ? 'Submitting...' : (connected ? 'Submit Post' : 'Connect Wallet to Post')}</span>
             </button>
-            {!connected && <p className="text-center text-purple-400 mt-2 text-sm">You must connect your wallet to post.</p>}
+            {!connected && <p className="text-center text-purple-400 mt-2 text-sm">You must connect your Solana wallet to post.</p>}
             {/* Warning about X post requirement */}
             <p className="mt-3 text-center text-yellow-500 text-xl font-xl flex items-center justify-center gap-1.5">
              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6">
