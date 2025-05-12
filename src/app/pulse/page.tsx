@@ -222,8 +222,10 @@ export default function PulseCommunity() {
       // Scroll to the timer
       timerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       
+      
+      
       // Display success toast using react-toastify
-      const twitterBaseUrl = "https://x.com/intent/tweet?in_reply_to=1916179301688602947&text=";
+      const twitterBaseUrl = "https://x.com/intent/tweet?in_reply_to=1921986313315573783&text=";
       const encodedText = encodeURIComponent(content); 
 
       const PostOnXButton = () => (
