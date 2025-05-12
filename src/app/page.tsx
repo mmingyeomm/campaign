@@ -369,14 +369,7 @@ export default function Home() {
                       >
                         Join Campaign
                       </Link>
-                      <a 
-                        href={pulseCommunityData?.imageURL || "#"}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="px-5 py-2 rounded-lg bg-gray-800/60 backdrop-blur-sm hover:bg-gray-700/80 text-sm font-medium border border-gray-700/50 hover:border-blue-500/30 text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]"
-                      >
-                        Learn About Pulse
-                      </a>
+                 
                     </div>
                   </div>
                 </div>
@@ -403,39 +396,25 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="backdrop-blur-md bg-gray-900/30 p-8 rounded-xl border border-gray-800/50 transition-all duration-300 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]">
-              <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-indigo-400 text-transparent bg-clip-text">Community Bootstrapper Platform</h3>
-              <p className="text-lg mb-6 text-gray-200">
-                Pulse is a revolutionary platform designed to help communities grow through active engagement and participation. We create a dynamic environment where contributors are rewarded and communities thrive.
-              </p>
-              <p className="text-lg mb-6 text-gray-200">
-                Through our innovative time clock system, we keep communities engaged and content fresh. The last contributor when the clock expires wins substantial rewards.
-              </p>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <span className="text-purple-400 mr-2 text-xl">✦</span>
-                  <span className="text-gray-200">Support for multiple community campaigns</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-purple-400 mr-2 text-xl">✦</span>
-                  <span className="text-gray-200">Fair and transparent reward distribution</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-purple-400 mr-2 text-xl">✦</span>
-                  <span className="text-gray-200">Quality content is valued and promoted</span>
-                </li>
-              </ul>
-            </div>
+          <div className="rounded-xl overflow-hidden border border-gray-800/50 shadow-lg">
+            <video
+              src="/videos/logic.mp4"
+              controls
+              autoPlay
+              loop
+              muted
+              className="w-full h-full object-cover"
+              style={{ minHeight: 320 }}
+            />
+          </div>
             <div className="backdrop-blur-md bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-xl p-8 border border-blue-500/20 shadow-lg hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] transition-all duration-300">
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center mr-3 shadow-[0_0_10px_rgba(139,92,246,0.5)]">
                   <span className="text-xl font-bold text-white">P</span>
                 </div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">Join Our Current Campaign: Pulse Community</h3>
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">Pulse Round 3</h3>
               </div>
-              <p className="mb-6 text-gray-200">
-                Participate in our Pulse community campaign and help boost content about the core platform. Share insights, feedback, and earn rewards.
-              </p>
+      
               <ul className="space-y-3 mb-6">
                 <li className="flex items-center">
                   <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center mr-3 shadow-[0_0_5px_rgba(99,102,241,0.5)]">
@@ -443,7 +422,7 @@ export default function Home() {
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <span className="text-gray-200">24-hour countdown timer</span>
+                  <span className="text-gray-200">6-hour countdown timer</span>
                 </li>
                 <li className="flex items-center">
                   <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center mr-3 shadow-[0_0_5px_rgba(139,92,246,0.5)]">
@@ -451,7 +430,7 @@ export default function Home() {
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <span className="text-gray-200">100 PULSE tokens reward</span>
+                  <span className="text-gray-200">3SOL reward</span>
                 </li>
                 <li className="flex items-center">
                   <div className="w-6 h-6 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center mr-3 shadow-[0_0_5px_rgba(236,72,153,0.5)]">
@@ -459,7 +438,7 @@ export default function Home() {
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <span className="text-gray-200">Exclusive NFT for winners</span>
+                  <span className="text-gray-200">Vault: PULSE9xChTVTQXsrN4wVuiGtgEdt2zhB9uJKpVd1Qkn</span>
                 </li>
               </ul>
               <Link
@@ -480,49 +459,7 @@ export default function Home() {
         <div className="absolute top-0 left-1/3 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
         
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="mb-14 text-center">
-            <h2 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-600 text-transparent bg-clip-text inline-block">
-              How Pulse Works
-            </h2>
-            <div className="h-1 w-40 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"></div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* 카드 1 */}
-            <div className="backdrop-blur-md bg-gray-900/30 p-8 rounded-xl border border-gray-800/50 transition-all duration-500 hover:transform hover:translate-y-[-5px] hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] group">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-2xl font-bold mb-6 shadow-[0_0_15px_rgba(99,102,241,0.5)] group-hover:shadow-[0_0_20px_rgba(99,102,241,0.7)] transition-all duration-300">
-                <span className="group-hover:scale-110 transition-transform duration-300">1</span>
-              </div>
-              <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-indigo-400 text-transparent bg-clip-text group-hover:from-blue-300 group-hover:to-indigo-300 transition-all duration-300">Join a Campaign</h3>
-              <p className="text-gray-200 group-hover:text-gray-100 transition-colors duration-300">
-                Browse our active community campaigns and join the ones that interest you the most. Each campaign focuses on a specific community or project.
-              </p>
-            </div>
-            
-            {/* 카드 2 */}
-            <div className="backdrop-blur-md bg-gray-900/30 p-8 rounded-xl border border-gray-800/50 transition-all duration-500 hover:transform hover:translate-y-[-5px] hover:border-purple-500/30 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] group">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-2xl font-bold mb-6 shadow-[0_0_15px_rgba(139,92,246,0.5)] group-hover:shadow-[0_0_20px_rgba(139,92,246,0.7)] transition-all duration-300">
-                <span className="group-hover:scale-110 transition-transform duration-300">2</span>
-              </div>
-              <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text group-hover:from-purple-300 group-hover:to-pink-300 transition-all duration-300">Post Quality Content</h3>
-              <p className="text-gray-200 group-hover:text-gray-100 transition-colors duration-300">
-                Contribute valuable content about the campaign topic. Share insights, updates, educational material, or engaging discussions.
-              </p>
-            </div>
-            
-            {/* 카드 3 */}
-            <div className="backdrop-blur-md bg-gray-900/30 p-8 rounded-xl border border-gray-800/50 transition-all duration-500 hover:transform hover:translate-y-[-5px] hover:border-pink-500/30 hover:shadow-[0_0_30px_rgba(236,72,153,0.3)] group">
-              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-indigo-600 rounded-full flex items-center justify-center text-2xl font-bold mb-6 shadow-[0_0_15px_rgba(236,72,153,0.5)] group-hover:shadow-[0_0_20px_rgba(236,72,153,0.7)] transition-all duration-300">
-                <span className="group-hover:scale-110 transition-transform duration-300">3</span>
-              </div>
-              <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-pink-400 to-indigo-400 text-transparent bg-clip-text group-hover:from-pink-300 group-hover:to-indigo-300 transition-all duration-300">Earn Rewards</h3>
-              <p className="text-gray-200 group-hover:text-gray-100 transition-colors duration-300">
-                Each post extends the campaign timer. When the timer runs out, the last contributor wins the campaign rewards. All active participants earn points.
-              </p>
-            </div>
-          </div>
-        </div>
+  
       </section>
 
       {/* 푸터 - 글래스모피즘 적용 */}
