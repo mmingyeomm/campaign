@@ -63,34 +63,7 @@ export default function Round3Page() {
 
         {/* What's New Section */}
         <section className="py-20 bg-gray-900/40">
-           <div className="max-w-5xl mx-auto px-4">
-              <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-orange-400">
-                What's New in Round 3?
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                 {/* Feature Card 1 */}
-                 <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700 text-center transition duration-300 hover:border-orange-500/50 hover:shadow-xl hover:shadow-orange-900/20">
-                    <h3 className="text-xl font-semibold mb-3 text-white">Dynamic Scoring</h3>
-                    <p className="text-gray-400 text-sm">
-                      Introducing a revamped scoring system that rewards quality, consistency, and impact more effectively.
-                    </p>
-                 </div>
-                 {/* Feature Card 2 */}
-                 <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700 text-center transition duration-300 hover:border-orange-500/50 hover:shadow-xl hover:shadow-orange-900/20">
-                    <h3 className="text-xl font-semibold mb-3 text-white">Bonus Objectives</h3>
-                    <p className="text-gray-400 text-sm">
-                      Tackle special weekly or daily objectives for extra points and unique reward opportunities.
-                    </p>
-                 </div>
-                 {/* Feature Card 3 */}
-                 <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700 text-center transition duration-300 hover:border-orange-500/50 hover:shadow-xl hover:shadow-orange-900/20">
-                    <h3 className="text-xl font-semibold mb-3 text-white">Enhanced Rewards</h3>
-                    <p className="text-gray-400 text-sm">
-                      Increased token pools, exclusive NFTs, and partner perks for top contributors and winners.
-                    </p>
-                 </div>
-              </div>
-           </div>
+      
         </section>
 
         {/* How It Works Section */}

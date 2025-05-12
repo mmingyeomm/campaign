@@ -289,12 +289,7 @@ export default function Home() {
               >
                 Join Pulse Campaign
               </Link>
-              <Link 
-                href="/round3"
-                className="px-6 py-3 rounded-lg bg-gradient-to-r from-gray-800/80 to-gray-900/80 hover:from-gray-700 hover:to-gray-800 backdrop-blur-sm font-medium border border-gray-700/50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:border-purple-500/50 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-              >
-                What is Round 3?
-              </Link>
+            
             </div>
           </div>
         </div>
