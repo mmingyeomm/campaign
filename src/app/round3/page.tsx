@@ -20,13 +20,14 @@ export default function Round3Page() {
               className="cursor-pointer transition-transform duration-300 hover:scale-105"
             />
           </Link>
-          <nav>
-            <ul className="flex space-x-6">
-              <li><Link href="/" className="text-gray-300 hover:text-white transition">Home</Link></li>
-              {/* Maybe link back to active campaign? */}
-              <li><Link href="/#active-campaigns" className="text-gray-300 hover:text-white transition">Campaigns</Link></li> 
-            </ul>
-          </nav>
+          <div className="flex items-center space-x-6">
+            <nav>
+              <ul className="flex space-x-6">
+                {/* Removed Home Link */}
+              </ul>
+            </nav>
+            {/* You might want a Connect Wallet button here too */}
+          </div>
         </div>
       </header>
 

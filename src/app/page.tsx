@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CommunityAPI, Community } from '@/api/community';
 import { ContentAPI, Content } from '@/api/content';
 import { TimerAPI, TimerState } from '@/api/timer';
@@ -29,6 +29,13 @@ export default function Home() {
   const [pulseTimeLeft, setPulseTimeLeft] = useState<string>('00:00:00');
   const [pulseCommunityData, setPulseCommunityData] = useState<Community | null>(null);
   const [pulsePostsCount, setPulsePostsCount] = useState<number>(0);
+
+  const activeCampaignsRef = useRef<HTMLElement>(null);
+
+  const scrollToActiveCampaigns = () => {
+    console.log('Join Pulse Campaign button clicked');
+    activeCampaignsRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -201,14 +208,6 @@ export default function Home() {
             <ul className="flex space-x-6">
               <li>
                 <Link 
-                  href="/" 
-                  className="text-blue-400 font-bold relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-blue-400 after:to-purple-500 after:origin-bottom-right after:scale-x-100"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link 
                   href="#about" 
                   className="hover:text-blue-400 transition relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-blue-400 after:to-purple-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
                 >
@@ -283,9 +282,10 @@ export default function Home() {
               Get ready for the next phase. More challenges, more rewards!
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
+              
               <Link 
                 href="#active-campaigns"
-                className="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] shadow-lg"
+                className="px-6 py-3 rounded-lg bg-gradient-to-r from-gray-800/80 to-gray-900/80 hover:from-gray-700 hover:to-gray-800 backdrop-blur-sm font-medium border border-gray-700/50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:border-purple-500/50 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]"
               >
                 Join Pulse Campaign
               </Link>
@@ -301,7 +301,7 @@ export default function Home() {
       </section>
 
       {/* Active Campaigns Section - 글래스모피즘 적용 */}
-      <section id="active-campaigns" className="py-24 relative overflow-hidden">
+      <section id="active-campaigns" ref={activeCampaignsRef} className="py-24 relative overflow-hidden">
         {/* 배경 효과 */}
         <div className="absolute inset-0">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>

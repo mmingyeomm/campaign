@@ -215,10 +215,19 @@ export default function PulseCommunity() {
       const twitterBaseUrl = "https://x.com/intent/tweet?in_reply_to=1916179301688602947&text=";
       const encodedText = encodeURIComponent(content); // Use the submitted content state
       toast.success('Content submitted successfully!', {
+        duration: 8000, // Increased duration to 8 seconds
         action: {
           label: "Post on X!",
-          onClick: () => window.open(twitterBaseUrl + encodedText, '_blank')
+          onClick: () => window.open(twitterBaseUrl + encodedText, '_blank'),
         },
+        // Add custom styling for the action button
+        actionButtonStyle: {
+          backgroundColor: '#2563eb', // A prominent blue color
+          color: 'white',
+          padding: '8px 16px', // Larger padding
+          borderRadius: '6px', // Rounded corners
+          fontSize: '16px', // Larger font size
+        }
       });
 
     } catch (error) {
@@ -256,14 +265,7 @@ export default function PulseCommunity() {
           <div className="flex items-center space-x-6">
             <nav>
               <ul className="flex space-x-6">
-                <li>
-                  <Link 
-                    href="/" 
-                    className="hover:text-blue-400 transition relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-blue-400 after:to-purple-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
-                  >
-                    Home
-                  </Link>
-                </li>
+                {/* Removed Home Link */}
               </ul>
             </nav>
             <button
