@@ -10,6 +10,7 @@ import { TimerAPI, TimerState } from '@/api/timer';
 import { CloudinaryAPI } from '@/api/cloudinary';
 import { CommunityAPI, Community } from '@/api/community';
 import { CONFIG } from '@/api/config';
+import { toast } from 'sonner';
 
 // Define Pulse community ID constant - REMEMBER TO REPLACE THIS
 const PULSE_COMMUNITY_ID = "f47ac10b-58cc-4372-a567-0e02b2c3d479"; 
@@ -210,17 +211,20 @@ export default function PulseCommunity() {
       // Reload content
       await loadContent();
       
-      // Display success message first
-      alert('Content submitted successfully!'); 
-
-      // Open Twitter intent in a new tab
+      // Display success toast with action button
       const twitterBaseUrl = "https://x.com/intent/tweet?in_reply_to=1916179301688602947&text=";
       const encodedText = encodeURIComponent(content); // Use the submitted content state
-      window.open(twitterBaseUrl + encodedText, '_blank');
+      toast.success('Content submitted successfully!', {
+        action: {
+          label: "Post on X!",
+          onClick: () => window.open(twitterBaseUrl + encodedText, '_blank')
+        },
+      });
 
     } catch (error) {
       console.error('Error submitting content:', error);
-      alert('Failed to submit content. Please try again.');
+      // Also use toast for errors
+      toast.error('Failed to submit content. Please try again.'); 
     } finally {
       setSubmitting(false);
     }

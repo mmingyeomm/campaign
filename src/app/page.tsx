@@ -181,7 +181,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/">
             <Image
-              src="/images/logo.png"
+              src="/images/pulseLogoBlank.png"
               alt="Pulse Logo"
               width={120}
               height={40}
@@ -222,9 +222,10 @@ export default function Home() {
             <p className="text-xl mb-8 max-w-3xl mx-auto text-gray-300">
               Participate in community bootstrapping campaigns and earn rewards by posting quality content about your favorite projects.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+            {/* Buttons moved to Round 3 Section */}
+            {/* <div className="flex flex-wrap justify-center gap-4">
               <Link 
-                href="#active-campaigns"
+                href="#active-campaigns" // Changed href to scroll to section
                 className="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 font-medium transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 Join Pulse Campaign
@@ -235,15 +236,64 @@ export default function Home() {
               >
                 Learn More
               </Link>
+            </div> */}
+          </div>
+        </div>
+      </section>
+
+      {/* Round 3 Coming Soon Section - Refined Styling */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
+          {/* 현대적인 Web3 스타일 이미지 프레임 */}
+          <div className="flex-shrink-0 group relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/40 via-purple-600/40 to-pink-600/40 rounded-2xl blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500 scale-105"></div>
+            <div className="relative p-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl overflow-hidden shadow-[0_0_25px_rgba(139,92,246,0.5)] group-hover:shadow-[0_0_35px_rgba(139,92,246,0.7)] transition-all duration-500">
+              <div className="bg-gray-900/90 backdrop-blur-sm p-2 rounded-xl">
+                <Image
+                  src="/images/pulseround3.jpg"
+                  alt="Pulse Round 3 Coming Soon"
+                  width={600} 
+                  height={338}
+                  className="rounded-lg transform transition duration-500 group-hover:scale-[1.02]"
+                  priority
+                />
+              </div>
+            </div>
+            {/* 선택적: 장식용 요소 추가 */}
+            <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-60 animate-pulse"></div>
+            <div className="absolute -bottom-3 -left-3 w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full blur-xl opacity-60 animate-pulse delay-700"></div>
+          </div>
+
+          {/* 텍스트 콘텐츠 & 버튼 (기존 코드 유지) */}
+          <div className="text-center md:text-left">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 text-transparent bg-clip-text">
+              Round 3 is Coming Soon!
+            </h2>
+            <p className="text-lg text-gray-300 mb-8">
+              Get ready for the next phase. More challenges, more rewards!
+            </p>
+            <div className="flex flex-wrap justify-center md:justify-start gap-4">
+              <Link 
+                href="#active-campaigns"
+                className="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 font-medium transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                Join Pulse Campaign
+              </Link>
+              <Link 
+                href="/round3"
+                className="px-6 py-3 rounded-lg bg-gradient-to-r from-gray-800/80 to-gray-900/80 hover:from-gray-700 hover:to-gray-800 backdrop-blur-sm font-medium border border-gray-700/50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:border-purple-500/50"
+              >
+                What is Round 3?
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Active Campaigns Section */}
+      {/* Active Campaigns Section - Refined Card Styling */}
       <section id="active-campaigns" className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/background.png')] opacity-5 bg-fixed"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-purple-900/20"></div>
+        {/* Simplified background elements */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/80 to-black opacity-80"></div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4">
           <div className="mb-14 text-center">
@@ -254,49 +304,54 @@ export default function Home() {
           </div>
           
           <div className="max-w-5xl mx-auto space-y-12">
+            {/* Pulse Campaign Card - Simplified Styling & Hover */}
             {pulseCommunityData && (
-              <div className="bg-gradient-to-br from-indigo-900/30 to-indigo-800/30 rounded-xl shadow-xl border border-indigo-500/20 hover:border-pink-500/40 transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
+              <div className="bg-gray-800/50 rounded-xl shadow-lg border border-gray-700 hover:border-pink-500/80 transition-all duration-300 overflow-hidden group transform hover:-translate-y-1 hover:shadow-pink-900/20 hover:shadow-xl">
                 <div className="flex flex-col md:flex-row">
-                  <div className="md:w-1/3 relative h-40 md:h-auto flex items-center justify-center bg-gradient-to-r from-indigo-900/40 to-indigo-700/40">
+                  {/* Image container with subtle hover effect */}
+                  <div className="md:w-1/3 relative h-40 md:h-auto flex items-center justify-center bg-gradient-to-br from-indigo-900/60 to-gray-900/80 overflow-hidden transition duration-300 group-hover:from-indigo-800/70">
                     <Image 
                       src="/images/pulselogo.jpg" 
                       alt="Pulse Logo" 
                       fill
                       style={{ objectFit: 'contain', padding: '1rem' }} 
+                      className="transition duration-300 group-hover:scale-105"
                     />
                   </div>
-                  <div className="md:w-2/3 p-8">
-                    <div className="flex items-center mb-4">
+                  <div className="md:w-2/3 p-6 md:p-8"> {/* Adjusted padding */}
+                    <div className="flex items-center mb-3"> {/* Reduced margin */}
                       <h3 className="text-2xl font-bold text-white">{pulseCommunityData?.name || 'Pulse Community'}</h3>
-                      <span className="ml-3 px-3 py-1 bg-pink-500/20 text-pink-300 text-xs rounded-full border border-pink-500/30">
+                      <span className="ml-3 px-3 py-1 bg-pink-500/20 text-pink-300 text-xs font-medium rounded-full border border-pink-500/30">
                         Active
                       </span>
                     </div>
-                    <p className="text-gray-200 mb-6">
+                    <p className="text-gray-300 mb-5 text-sm"> {/* Adjusted text size/margin */}
                       {pulseCommunityData?.description || 'Engage with the core Pulse community. Share your ideas, contributions, and help shape the future!'}
                     </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                      <div className="bg-indigo-900/40 p-3 rounded-lg text-center border border-indigo-500/20">
+                    {/* Stats Grid - Simplified Styling */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6"> {/* Reduced gap */}
+                      <div className="bg-gray-900/60 p-3 rounded-lg text-center border border-gray-700/70">
                         <div className="text-xl font-bold text-pink-300">{pulsePostsCount > 0 ? pulsePostsCount : '0'}</div>
-                        <div className="text-xs text-gray-300">Participants</div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider">Participants</div> {/* Updated text style */}
                       </div>
-                      <div className="bg-indigo-900/40 p-3 rounded-lg text-center border border-indigo-500/20">
+                      <div className="bg-gray-900/60 p-3 rounded-lg text-center border border-gray-700/70">
                         <div className="text-xl font-bold text-pink-300">{pulseCommunityData?.bountyAmount || '100'}</div>
-                        <div className="text-xs text-gray-300">PULSE Tokens</div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider">PULSE Tokens</div>
                       </div>
-                      <div className="bg-indigo-900/40 p-3 rounded-lg text-center border border-indigo-500/20">
+                      <div className="bg-gray-900/60 p-3 rounded-lg text-center border border-gray-700/70">
                         <div className="text-xl font-bold text-pink-300">{pulseTimeLeft}</div>
-                        <div className="text-xs text-gray-300">Time Left</div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider">Time Left</div>
                       </div>
-                      <div className="bg-indigo-900/40 p-3 rounded-lg text-center border border-indigo-500/20">
+                      <div className="bg-gray-900/60 p-3 rounded-lg text-center border border-gray-700/70">
                         <div className="text-xl font-bold text-pink-300">{pulsePostsCount}</div>
-                        <div className="text-xs text-gray-300">Posts</div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider">Posts</div>
                       </div>
                     </div>
+                     {/* Buttons - Ensure consistent styling */}
                     <div className="flex flex-wrap gap-3">
                       <Link 
                         href="/pulse" 
-                        className="px-5 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 text-white text-sm font-medium transition-all duration-300"
+                        className="px-5 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 text-white text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
                       >
                         Join Campaign
                       </Link>
@@ -304,7 +359,7 @@ export default function Home() {
                         href={pulseCommunityData?.imageURL || "#"}
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="px-5 py-2 rounded-lg bg-indigo-900/40 hover:bg-indigo-800/50 text-sm font-medium border border-indigo-500/30 text-indigo-300 hover:text-white transition-all duration-300"
+                        className="px-5 py-2 rounded-lg bg-gray-700/60 hover:bg-gray-600/80 text-sm font-medium border border-gray-600 text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
                       >
                         Learn About Pulse
                       </a>
@@ -314,185 +369,10 @@ export default function Home() {
               </div>
             )}
             
-            {/* {soonCommunityData && (
-              <div className="bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-xl shadow-xl border border-blue-500/20 hover:border-blue-500/40 transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
-                <div className="flex flex-col md:flex-row">
-                  <div className="md:w-1/3 relative h-40 md:h-auto flex items-center justify-center bg-gradient-to-r from-blue-900/40 to-purple-900/40">
-                    <Image 
-                      src="/images/soonlogo.png" 
-                      alt="Soon Logo" 
-                      fill
-                      style={{ objectFit: 'contain' }}
-                    />
-                  </div>
-                  <div className="md:w-2/3 p-8">
-                    <div className="flex items-center mb-4">
-                      <h3 className="text-2xl font-bold text-white">{soonCommunityData?.name || 'Soon Community'}</h3>
-                      <span className="ml-3 px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full border border-blue-500/30">
-                        Active
-                      </span>
-                    </div>
-                    <p className="text-gray-200 mb-6">
-                      {soonCommunityData?.description || 'Soon is an innovative platform designed to revolutionize community interactions. Join our campaign to help promote this cutting-edge project and earn rewards for quality content contributions.'}
-                    </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                      <div className="bg-blue-900/40 p-3 rounded-lg text-center">
-                        <div className="text-xl font-bold text-blue-300">{soonPostsCount > 0 ? soonPostsCount : '0'}</div>
-                        <div className="text-xs text-gray-300">Participants</div>
-                      </div>
-                      <div className="bg-blue-900/40 p-3 rounded-lg text-center">
-                        <div className="text-xl font-bold text-blue-300">{soonCommunityData?.bountyAmount || '500'}</div>
-                        <div className="text-xs text-gray-300">PULSE Tokens</div>
-                      </div>
-                      <div className="bg-blue-900/40 p-3 rounded-lg text-center">
-                        <div className="text-xl font-bold text-blue-300">{soonTimeLeft}</div>
-                        <div className="text-xs text-gray-300">Time Left</div>
-                      </div>
-                      <div className="bg-blue-900/40 p-3 rounded-lg text-center">
-                        <div className="text-xl font-bold text-blue-300">{soonPostsCount}</div>
-                        <div className="text-xs text-gray-300">Posts</div>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap gap-3">
-                      <Link 
-                        href="/soon" 
-                        className="px-5 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-sm font-medium transition-all duration-300"
-                      >
-                        Join Campaign
-                      </Link>
-                      <a 
-                        href={soonCommunityData?.imageURL || "https://soon.com"} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="px-5 py-2 rounded-lg bg-blue-900/40 hover:bg-blue-800/50 text-sm font-medium border border-blue-500/30 transition-all duration-300"
-                      >
-                        Learn About Soon
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )} */}
-
-            {/* {orcaCommunityData && (
-              <div className="bg-gradient-to-br from-teal-900/30 to-teal-800/30 rounded-xl shadow-xl border border-teal-500/20 hover:border-teal-500/40 transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
-                <div className="flex flex-col md:flex-row">
-                  <div className="md:w-1/3 relative h-40 md:h-auto flex items-center justify-center bg-gradient-to-r from-teal-900/40 to-teal-800/40">
-                    <Image 
-                      src="/images/orca.png" 
-                      alt="Orca Logo" 
-                      fill
-                      style={{ objectFit: 'contain' }}
-                    />
-                  </div>
-                  <div className="md:w-2/3 p-8">
-                    <div className="flex items-center mb-4">
-                      <h3 className="text-2xl font-bold text-white">{orcaCommunityData?.name || 'Orca Community'}</h3>
-                      <span className="ml-3 px-3 py-1 bg-teal-500/20 text-teal-300 text-xs rounded-full border border-teal-500/30">
-                        Active
-                      </span>
-                    </div>
-                    <p className="text-gray-200 mb-6">
-                      {orcaCommunityData?.description || 'Orca is a leading AMM on Solana, known for its user-friendly interface and capital efficiency. Join our campaign to support Orca and earn rewards!'}
-                    </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                      <div className="bg-teal-900/40 p-3 rounded-lg text-center">
-                        <div className="text-xl font-bold text-teal-300">{orcaPostsCount > 0 ? orcaPostsCount : '0'}</div>
-                        <div className="text-xs text-gray-300">Participants</div>
-                      </div>
-                      <div className="bg-teal-900/40 p-3 rounded-lg text-center">
-                        <div className="text-xl font-bold text-teal-300">{orcaCommunityData?.bountyAmount || '500'}</div>
-                        <div className="text-xs text-gray-300">PULSE Tokens</div>
-                      </div>
-                      <div className="bg-teal-900/40 p-3 rounded-lg text-center">
-                        <div className="text-xl font-bold text-teal-300">{orcaTimeLeft}</div>
-                        <div className="text-xs text-gray-300">Time Left</div>
-                      </div>
-                      <div className="bg-teal-900/40 p-3 rounded-lg text-center">
-                        <div className="text-xl font-bold text-teal-300">{orcaPostsCount}</div>
-                        <div className="text-xs text-gray-300">Posts</div>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap gap-3">
-                      <Link 
-                        href="/orca" 
-                        className="px-5 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-sm font-medium transition-all duration-300"
-                      >
-                        Join Campaign
-                      </Link>
-                      <a 
-                        href={orcaCommunityData?.imageURL || "https://solana.com/ecosystem/orca"}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="px-5 py-2 rounded-lg bg-teal-900/40 hover:bg-teal-800/50 text-sm font-medium border border-teal-500/30 transition-all duration-300"
-                      >
-                        Learn About Orca
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )} */}
-
-            {/* {iq6900CommunityData && (
-              <div className="mt-12 bg-gray-900/70 rounded-xl shadow-xl border border-green-700/50 hover:border-lime-400/70 transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
-                <div className="flex flex-col md:flex-row">
-                  <div className="md:w-1/3 relative h-40 md:h-auto flex items-center justify-center bg-black/50">
-                    <Image 
-                      src="/images/iq6900logo.jpg" 
-                      alt="IQ6900 Logo" 
-                      fill 
-                      style={{ objectFit: 'contain', padding: '1rem' }} 
-                    />
-                  </div>
-                  <div className="md:w-2/3 p-8">
-                    <div className="flex items-center mb-4">
-                      <h3 className="text-2xl font-bold text-lime-400">{iq6900CommunityData?.name || 'IQ6900 Community'}</h3>
-                      <span className="ml-3 px-3 py-1 bg-green-700/30 text-lime-300 text-xs rounded-full border border-green-600/50">
-                        Active
-                      </span>
-                    </div>
-                    <p className="text-gray-300 mb-6">
-                      {iq6900CommunityData?.description || 'IQ6900: Exploring the frontiers of decentralized intelligence. Join the campaign!'}
-                    </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                      <div className="bg-gray-800/60 p-3 rounded-lg text-center border border-green-800/50">
-                        <div className="text-xl font-bold text-lime-400">{iq6900PostsCount > 0 ? iq6900PostsCount : '0'}</div>
-                        <div className="text-xs text-gray-400">Participants</div>
-                      </div>
-                      <div className="bg-gray-800/60 p-3 rounded-lg text-center border border-green-800/50">
-                        <div className="text-xl font-bold text-lime-400">{iq6900CommunityData?.bountyAmount || '100'}</div>
-                        <div className="text-xs text-gray-400">PULSE Tokens</div>
-                      </div>
-                      <div className="bg-gray-800/60 p-3 rounded-lg text-center border border-green-800/50">
-                        <div className="text-xl font-bold text-lime-400">{iq6900TimeLeft}</div>
-                        <div className="text-xs text-gray-400">Time Left</div>
-                      </div>
-                      <div className="bg-gray-800/60 p-3 rounded-lg text-center border border-green-800/50">
-                        <div className="text-xl font-bold text-lime-400">{iq6900PostsCount}</div>
-                        <div className="text-xs text-gray-400">Posts</div>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap gap-3">
-                      <Link 
-                        href="/iq6900" 
-                        className="px-5 py-2 rounded-lg bg-lime-400 hover:bg-lime-500 text-black text-sm font-semibold transition-all duration-300"
-                      >
-                        Join Campaign
-                      </Link>
-                      <a 
-                        href={iq6900CommunityData?.imageURL || "#"}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="px-5 py-2 rounded-lg bg-emerald-300 hover:bg-emerald-400 text-green-900 text-sm font-semibold border border-green-700/80 transition-all duration-300"
-                      >
-                        Learn About IQ6900
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )} */}
+            {/* Commented out other campaigns - apply similar style refinements if re-enabled */}
+            {/* {soonCommunityData && (...)} */}
+            {/* {orcaCommunityData && (...)} */}
+            {/* {iq6900CommunityData && (...)} */}
 
           </div>
         </div>
@@ -624,7 +504,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
               <Image
-                src="/images/logo.png"
+                src="/images/pulseLogoBlank.png"
                 alt="Pulse Logo"
                 width={100}
                 height={30}
