@@ -2,9 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ContentAPI, Content } from '@/api/content';
-import { WalletAPI } from '@/api/wallet';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { TimerAPI, TimerState } from '@/api/timer';
 import { CloudinaryAPI } from '@/api/cloudinary';
 import { CommunityAPI, Community } from '@/api/community';
@@ -12,10 +13,33 @@ import { CommunityAPI, Community } from '@/api/community';
 
 const IQ6900_COMMUNITY_ID = "a8f3e6d1-7b92-4c5f-9e48-d67f0a2b3c4e";
 
+// Theme configuration (can be moved to a separate file)
+const theme = {
+  bgBlack: 'bg-black',
+  textLightNeutral: 'text-gray-200',
+  textNeon: 'text-green-400',
+  borderNeon: 'border-green-500',
+  borderDarkGreenLighter: 'border-green-800',
+  headerActiveLink: 'text-green-400 font-bold',
+  headerInactiveLink: 'hover:text-green-400 transition',
+  buttonPrimaryBg: 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700',
+  buttonPrimaryText: 'text-black',
+  buttonSecondaryBg: 'bg-gray-800/50 hover:bg-gray-700/60',
+  buttonSecondaryText: 'text-green-300',
+  buttonSecondaryBorder: 'border-green-500/30',
+  inputBg: 'bg-gray-800/60',
+  inputBorder: 'border-green-500/30',
+  inputFocusRing: 'focus:ring-green-500',
+  cardBg: 'bg-gradient-to-br from-gray-900/50 to-emerald-900/30',
+  cardBorder: 'border-green-500/20',
+  shadowGlow: 'shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:shadow-[0_0_25px_rgba(52,211,153,0.4)]',
+};
+
 export default function IQ6900Community() {
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  
+  // Use Solana Wallet Adapter hooks
+  const { publicKey, connected } = useWallet();
+  const walletAddress = useMemo(() => publicKey?.toBase58(), [publicKey]);
+
   const [timeLeft, setTimeLeft] = useState<TimerState>({
     hours: 0, // Initialized to 0, will be updated by timer logic
     minutes: 0,
@@ -31,105 +55,61 @@ export default function IQ6900Community() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedKey = WalletAPI.getPublicKey();
-    if (storedKey) {
-      setWalletConnected(true);
-      setWalletAddress(storedKey);
-    }
-    
+    // Wallet connection state is managed by the adapter
     loadContentAndCommunity();
-    
     const refreshInterval = setInterval(() => {
-      loadContentAndCommunity(); // Refresh both content and community for timer
-    }, 10000); // Refresh every 10 seconds
-    
+      loadContentAndCommunity();
+    }, 10000);
     return () => clearInterval(refreshInterval);
   }, []);
 
   useEffect(() => {
-    let timerInterval: NodeJS.Timeout;
-    if (community && community.timeLimit) {
-      updateTimer(); // Initial update
-      timerInterval = setInterval(updateTimer, 1000); // Update timer every second
+    if (community || posts.length > 0) {
+      updateTimer();
     }
-    return () => clearInterval(timerInterval);
-  }, [posts, community]);
+  }, [posts, community]); // Re-run timer update when posts or community data changes
 
   const loadContentAndCommunity = async () => {
     setLoading(true);
     try {
-      // Fetch community info first or in parallel
-      const fetchedCommunity = await CommunityAPI.fetchCommunityById(IQ6900_COMMUNITY_ID);
-      if (fetchedCommunity) {
-        setCommunity(fetchedCommunity);
-        console.log("Loaded IQ6900 community data:", fetchedCommunity);
+      const [contents, communityData] = await Promise.all([
+        ContentAPI.fetchAllContents(IQ6900_COMMUNITY_ID),
+        CommunityAPI.fetchCommunityById(IQ6900_COMMUNITY_ID)
+      ]);
+      
+      contents.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      setPosts(contents);
+      
+      if (communityData) {
+        setCommunity(communityData);
       } else {
-        console.error('IQ6900 Community not found');
-        // Handle case where community info isn't found
-      }
-
-      // Fetch content specific to IQ6900 community
-      const contents = await ContentAPI.fetchAllContents(IQ6900_COMMUNITY_ID);
-      console.log("Fetched contents for IQ6900:", contents);
-      
-      // Double-check that we only have IQ6900 content by filtering
-      const filteredContents = contents.filter(content => content.communityId === IQ6900_COMMUNITY_ID);
-      if (filteredContents.length !== contents.length) {
-        console.warn(`Filtered out ${contents.length - filteredContents.length} posts that didn't belong to IQ6900 community`);
+        console.error('Community data not found for IQ6900');
       }
       
-      // Sort by newest first
-      filteredContents.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-      setPosts(filteredContents);
-
     } catch (error) {
-      console.error('Error loading data for IQ6900:', error);
+      console.error('Error loading content or community for IQ6900:', error);
     } finally {
       setLoading(false);
     }
   };
   
   const updateTimer = () => {
-    // Use default timeLimit of 120 minutes if the community timeLimit is null
-    // This matches the Orca community's timeLimit from the provided data
     const defaultTimeLimit = 120;
-    
     if (!community) {
       setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
       return;
     }
-
     const timeLimit = community.timeLimit || defaultTimeLimit;
     const now = new Date().getTime();
     let remainingSec: number;
-
     if (posts.length > 0 && posts[0].createdAt) {
       const lastPostTime = new Date(posts[0].createdAt).getTime();
       const elapsedSeconds = Math.floor((now - lastPostTime) / 1000);
       remainingSec = Math.max(0, timeLimit * 60 - elapsedSeconds);
     } else {
-      // If no posts yet, show the full time limit
       remainingSec = timeLimit * 60;
     }
     setTimeLeft(TimerAPI.secondsToHMS(remainingSec));
-  };
-
-  const handleConnectWallet = async () => {
-    try {
-      const publicKey = await WalletAPI.connect();
-      if (publicKey) {
-        setWalletConnected(true);
-        setWalletAddress(publicKey);
-      }
-    } catch (error) {
-      console.error('Failed to connect wallet:', error);
-    }
-  };
-
-  const handleDisconnectWallet = () => {
-    WalletAPI.disconnect();
-    setWalletConnected(false);
-    setWalletAddress(null);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -152,7 +132,7 @@ export default function IQ6900Community() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!content.trim() || !walletConnected || !walletAddress) {
+    if (!content.trim() || !connected || !walletAddress) {
       alert('Please connect your wallet and write some content!');
       return;
     }
@@ -170,10 +150,9 @@ export default function IQ6900Community() {
           }
         }
       }
-      // Use IQ6900_COMMUNITY_ID for submitting content
       await ContentAPI.submitContent(content, IQ6900_COMMUNITY_ID, imageUrl, walletAddress);
       resetForm();
-      await loadContentAndCommunity(); // Reload content and community data
+      await loadContentAndCommunity();
       alert('Content submitted successfully for IQ6900!');
     } catch (error) {
       console.error('Error submitting content for IQ6900:', error);
@@ -181,52 +160,6 @@ export default function IQ6900Community() {
     } finally {
       setSubmitting(false);
     }
-  };
-
-  // Updated theme with a more dramatic, futuristic design inspired by the iq6900theme.png
-  const theme = {
-    // Updated text colors for more contrast and impact
-    textNeon: 'text-lime-500',
-    textHighlight: 'text-emerald-400',
-    textLightNeutral: 'text-gray-200',
-    textDarkForLightBg: 'text-gray-900',
-
-    // Updated backgrounds for more depth and atmosphere
-    bgBlack: 'bg-black',
-    bgPanel: 'bg-gray-900/80',
-    bgPanelDarker: 'bg-gray-950/90',
-    bgInput: 'bg-gray-900/70',
-    bgGradient: 'bg-gradient-to-br from-gray-900 via-green-950/20 to-gray-950',
-
-    // Borders and accents with more glow effect
-    borderNeon: 'border-lime-500',
-    borderGlow: 'border-lime-500/50',
-    borderDarkGreen: 'border-green-900',
-    borderDarkGreenLighter: 'border-green-800/40',
-
-    ringFocusNeon: 'focus:ring-lime-500',
-
-    // Updated buttons for more futuristic feel
-    buttonPrimaryBg: 'bg-lime-500 hover:bg-lime-400',
-    buttonPrimaryText: 'text-black font-semibold',
-    
-    buttonSecondaryBg: 'bg-emerald-400/90 hover:bg-emerald-400', 
-    buttonSecondaryText: 'text-gray-900 font-semibold',
-    buttonSecondaryBorder: 'border-emerald-600/50',
-
-    // Navigation and UI elements
-    headerActiveLink: 'text-lime-500 font-bold',
-    headerInactiveLink: 'text-gray-300 hover:text-lime-400 transition',
-
-    // Stat boxes with more futuristic design
-    statBoxBg: 'bg-gray-900/70',
-    statBoxBorder: 'border-green-900/50',
-    statBoxTextNeon: 'text-lime-500',
-    statBoxLabel: 'text-gray-400',
-    
-    // Shadows for depth
-    shadowGlow: 'shadow-lg shadow-lime-500/10',
-    shadowBox: 'shadow-xl',
   };
 
   return (
@@ -264,12 +197,11 @@ export default function IQ6900Community() {
                 <li><Link href="/iq6900" className={theme.headerActiveLink}>IQ6900</Link></li> 
               </ul>
             </nav>
-            <button
-              onClick={walletConnected ? handleDisconnectWallet : handleConnectWallet}
-              className={`px-4 py-2 rounded-lg ${theme.buttonPrimaryBg} ${theme.buttonPrimaryText} text-sm transition ${theme.shadowGlow}`}
-            >
-              {walletConnected ? 'Disconnect Wallet' : 'Connect Wallet'}
-            </button>
+            <WalletMultiButton style={{ 
+              backgroundColor: 'transparent', 
+              border: 'none',
+              padding: 0
+            }} className={`px-4 py-2 rounded-lg ${theme.buttonPrimaryBg} ${theme.buttonPrimaryText} text-sm transition ${theme.shadowGlow}`} />
           </div>
         </div>
       </header>
@@ -284,21 +216,21 @@ export default function IQ6900Community() {
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2">
               <h1 className={`text-5xl md:text-6xl font-bold mb-6 ${theme.textNeon} leading-tight`}>
-                IQ6900 <span className={theme.textHighlight}>Community</span> Campaign
+                IQ6900 <span className={theme.textNeon}>Community</span> Campaign
               </h1>
               <p className={`text-xl mb-8 ${theme.textLightNeutral} leading-relaxed`}>
                 Join the IQ6900 community campaign! Post quality content, engage with the community, and earn rewards. The clock is ticking!
               </p>
               
-              <div className={`${theme.bgGradient} backdrop-blur-md p-6 rounded-xl mb-8 border ${theme.borderGlow} ${theme.shadowBox}`}>
+              <div className={`${theme.cardBg} backdrop-blur-md p-6 rounded-xl mb-8 border ${theme.cardBorder} ${theme.shadowGlow}`}>
                 <h3 className={`text-xl font-medium mb-4 ${theme.textNeon}`}>Reward Timer</h3>
                 <div className="flex justify-center gap-4">
                   {['hours', 'minutes', 'seconds'].map((unit) => (
                     <div className="text-center" key={unit}>
-                      <div className={`text-3xl font-bold ${theme.statBoxBg} rounded-lg w-16 h-16 flex items-center justify-center border ${theme.borderNeon} ${theme.statBoxTextNeon} ${theme.shadowGlow}`}>
+                      <div className={`text-3xl font-bold ${theme.cardBg} rounded-lg w-16 h-16 flex items-center justify-center border ${theme.borderNeon} ${theme.textNeon} ${theme.shadowGlow}`}>
                         {timeLeft[unit as keyof TimerState].toString().padStart(2, '0')}
                       </div>
-                      <div className={`text-xs mt-2 ${theme.statBoxLabel}`}>{unit.toUpperCase()}</div>
+                      <div className={`text-xs mt-2 ${theme.textLightNeutral}`}>{unit.toUpperCase()}</div>
                     </div>
                   ))}
                 </div>
@@ -310,13 +242,13 @@ export default function IQ6900Community() {
 
             <div className="md:w-1/2">
               <div className="relative">
-                <div className={`relative ${theme.bgGradient} backdrop-blur-xl p-8 rounded-2xl border ${theme.borderGlow} ${theme.shadowBox} overflow-hidden`}>
+                <div className={`relative ${theme.cardBg} backdrop-blur-xl p-8 rounded-2xl border ${theme.cardBorder} ${theme.shadowGlow} overflow-hidden`}>
                   {/* Decorative elements */}
-                  <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-lime-500/10 filter blur-2xl"></div>
+                  <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-green-500/10 filter blur-2xl"></div>
                   <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-emerald-500/10 filter blur-2xl"></div>
                   
                   <div className="flex items-center mb-6">
-                    <div className={`relative w-16 h-16 mr-5 flex-shrink-0 ${theme.statBoxBg} rounded-xl flex items-center justify-center border ${theme.borderNeon} p-2 ${theme.shadowGlow}`}>
+                    <div className={`relative w-16 h-16 mr-5 flex-shrink-0 ${theme.cardBg} rounded-xl flex items-center justify-center border ${theme.borderNeon} p-2 ${theme.shadowGlow}`}>
                       <Image 
                         src="/images/iq6900logo.jpg"
                         alt="IQ6900 Logo" 
@@ -327,7 +259,7 @@ export default function IQ6900Community() {
                     </div>
                     <div>
                       <h3 className={`text-2xl font-semibold ${theme.textNeon}`}>IQ6900 Community</h3>
-                      <p className={`${theme.textHighlight} text-sm font-medium`}>Featured Project</p>
+                      <p className={`${theme.textNeon} text-sm font-medium`}>Featured Project</p>
                     </div>
                   </div>
                   <p className={`${theme.textLightNeutral} mb-6 text-base`}>
@@ -339,12 +271,12 @@ export default function IQ6900Community() {
                       <div className={`text-2xl font-bold ${theme.textNeon}`}>
                         {community?.bountyAmount ? parseFloat(community.bountyAmount).toFixed(2) : 'N/A'} PULSE
                       </div>
-                      <div className={`text-xs ${theme.statBoxLabel} uppercase tracking-wider`}>BOUNTY</div>
+                      <div className={`text-xs ${theme.textLightNeutral} uppercase tracking-wider`}>BOUNTY</div>
                     </div>
                     <div className={`border-l ${theme.borderDarkGreenLighter} h-10`}></div>
                     <div>
                       <div className={`text-2xl font-bold ${theme.textNeon}`}>{posts.length}</div>
-                      <div className={`text-xs ${theme.statBoxLabel} uppercase tracking-wider`}>Participants</div>
+                      <div className={`text-xs ${theme.textLightNeutral} uppercase tracking-wider`}>Participants</div>
                     </div>
                   </div>
 
@@ -372,19 +304,19 @@ export default function IQ6900Community() {
               Post About IQ6900
             </h2>
             {/* Updated underline with animation */}
-            <div className={`h-1 w-40 bg-gradient-to-r from-lime-500 to-emerald-400 mx-auto rounded-full`}></div> 
+            <div className={`h-1 w-40 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full`}></div> 
           </div>
           
           <form onSubmit={handleSubmit} className="mb-12">
-            <div className={`${theme.bgGradient} rounded-xl p-6 mb-4 border ${theme.borderGlow} ${theme.shadowBox}`}>
+            <div className={`${theme.cardBg} rounded-xl p-6 mb-4 border ${theme.cardBorder} ${theme.shadowGlow}`}>
               <textarea
-                className={`w-full ${theme.bgInput} border ${theme.borderDarkGreen} rounded-lg p-4 ${theme.textLightNeutral} resize-none focus:outline-none focus:ring-2 ${theme.ringFocusNeon}`}
+                className={`w-full ${theme.inputBg} border ${theme.inputBorder} rounded-lg p-4 ${theme.textLightNeutral} resize-none focus:outline-none focus:ring-2 ${theme.inputFocusRing}`}
                 rows={4}
                 placeholder="Share your thoughts about IQ6900..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
-                disabled={!walletConnected}
+                disabled={!connected}
               />
               
               <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -399,7 +331,7 @@ export default function IQ6900Community() {
                     accept="image/*"
                     onChange={handleImageChange}
                     className="hidden"
-                    disabled={!walletConnected}
+                    disabled={!connected}
                   />
                   {imageFile && <span className={`ml-3 text-sm ${theme.textLightNeutral}`}>{imageFile.name}</span>}
                 </div>
@@ -417,12 +349,12 @@ export default function IQ6900Community() {
             
             <button 
               type="submit" 
-              disabled={submitting || !walletConnected}
+              disabled={submitting || !connected}
               className={`w-full py-3 mt-2 rounded-lg ${theme.buttonPrimaryBg} ${theme.buttonPrimaryText} font-bold transition disabled:opacity-60 disabled:cursor-not-allowed ${theme.shadowGlow}`}
             >
-              {submitting ? 'Submitting...' : (walletConnected ? 'Submit Post' : 'Connect Wallet to Post')}
+              {submitting ? 'Submitting...' : (connected ? 'Submit Post' : 'Connect Wallet to Post')}
             </button>
-            {!walletConnected && <p className={`text-center ${theme.textNeon} mt-2 text-sm`}>You must connect your wallet to post.</p>}
+            {!connected && <p className={`text-center ${theme.textNeon} mt-2 text-sm`}>You must connect your wallet to post.</p>}
           </form>
 
           {/* Posts Feed - Enhanced for better visibility */}
@@ -432,7 +364,7 @@ export default function IQ6900Community() {
               <p className={`text-center ${theme.textLightNeutral}`}>No posts yet for IQ6900. Be the first!</p>
             )}
             {posts.map((post) => (
-              <div key={post.id} className={`${theme.bgGradient} rounded-xl p-6 border ${theme.borderGlow} ${theme.shadowBox}`}>
+              <div key={post.id} className={`${theme.cardBg} rounded-xl p-6 border ${theme.cardBorder} ${theme.shadowGlow}`}>
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0">
                     <div className={`w-10 h-10 rounded-full bg-green-900/50 flex items-center justify-center ${theme.textNeon} font-semibold border ${theme.borderNeon} ${theme.shadowGlow}`}>
@@ -450,7 +382,7 @@ export default function IQ6900Community() {
                     </div>
                     <p className={`${theme.textLightNeutral} whitespace-pre-wrap break-words`}>{post.content}</p>
                     {post.imageURL && (
-                      <div className={`mt-3 rounded-lg overflow-hidden border ${theme.borderGlow}`}>
+                      <div className={`mt-3 rounded-lg overflow-hidden border ${theme.borderNeon}`}>
                         <Image 
                           src={post.imageURL} 
                           alt="User uploaded content" 
@@ -482,11 +414,11 @@ export default function IQ6900Community() {
             <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${theme.textNeon} inline-block`}>
               IQ6900 Campaign Rewards
             </h2>
-            <div className={`h-1 w-40 bg-gradient-to-r from-lime-500 to-emerald-400 mx-auto rounded-full`}></div>
+            <div className={`h-1 w-40 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full`}></div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className={`${theme.bgGradient} border ${theme.borderGlow} p-8 rounded-xl ${theme.shadowBox} transition duration-300`}>
+            <div className={`${theme.cardBg} border ${theme.cardBorder} p-8 rounded-xl ${theme.shadowGlow} transition duration-300`}>
               <h3 className={`text-2xl font-bold mb-6 ${theme.textNeon}`}>Winner Rewards</h3>
               <ul className="space-y-6">
                 {[
@@ -497,10 +429,10 @@ export default function IQ6900Community() {
                 ].map(reward => (
                   <li className="flex items-center" key={reward.title}>
                     <div className={`w-10 h-10 rounded-full ${theme.buttonPrimaryBg} flex items-center justify-center mr-4 ${theme.shadowGlow}`}>
-                      <span className={`${theme.textDarkForLightBg} text-sm font-bold`}>✦</span>
+                      <span className={`${theme.textNeon} text-sm font-bold`}>✦</span>
                     </div>
                     <div>
-                      <span className={`text-lg font-medium ${theme.textHighlight}`}>{reward.title}</span>
+                      <span className={`text-lg font-medium ${theme.textNeon}`}>{reward.title}</span>
                       <p className={`text-sm ${theme.textLightNeutral}/80`}>{reward.desc}</p>
                     </div>
                   </li>
@@ -508,7 +440,7 @@ export default function IQ6900Community() {
               </ul>
             </div>
             
-            <div className={`${theme.bgGradient} border ${theme.borderGlow} p-8 rounded-xl ${theme.shadowBox} transition duration-300`}>
+            <div className={`${theme.cardBg} border ${theme.cardBorder} p-8 rounded-xl ${theme.shadowGlow} transition duration-300`}>
               <h3 className={`text-2xl font-bold mb-6 ${theme.textNeon}`}>Active Participant Rewards</h3>
               <ul className="space-y-6">
                 {[
@@ -519,10 +451,10 @@ export default function IQ6900Community() {
                 ].map(reward => (
                   <li className="flex items-center" key={reward.title}>
                     <div className={`w-10 h-10 rounded-full ${theme.buttonPrimaryBg} flex items-center justify-center mr-4 ${theme.shadowGlow}`}>
-                      <span className={`${theme.textDarkForLightBg} text-sm font-bold`}>✦</span>
+                      <span className={`${theme.textNeon} text-sm font-bold`}>✦</span>
                     </div>
                     <div>
-                      <span className={`text-lg font-medium ${theme.textHighlight}`}>{reward.title}</span>
+                      <span className={`text-lg font-medium ${theme.textNeon}`}>{reward.title}</span>
                       <p className={`text-sm ${theme.textLightNeutral}/80`}>{reward.desc}</p>
                     </div>
                   </li>
@@ -532,7 +464,7 @@ export default function IQ6900Community() {
           </div>
           
           <div className="mt-16 text-center">
-            <p className={`text-xl mb-8 ${theme.textHighlight}`}>Don't miss out on the IQ6900 campaign!</p>
+            <p className={`text-xl mb-8 ${theme.textNeon}`}>Don't miss out on the IQ6900 campaign!</p>
             <a href="#top" 
               className={`px-8 py-3 ${theme.buttonPrimaryBg} ${theme.buttonPrimaryText} rounded-full font-bold text-lg inline-block transition-all duration-300 transform hover:scale-105 ${theme.shadowGlow}`}>
               Start Posting Now
@@ -560,7 +492,7 @@ export default function IQ6900Community() {
               ))}
             </div>
           </div>
-          <div className={`mt-8 pt-8 border-t ${theme.borderDarkGreen} text-center ${theme.textLightNeutral}/70`}>
+          <div className={`mt-8 pt-8 border-t ${theme.borderDarkGreenLighter} text-center ${theme.textLightNeutral}/70`}>
             <p>© {new Date().getFullYear()} Pulse x IQ6900. All rights reserved.</p>
           </div>
         </div>

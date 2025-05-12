@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { ContentAPI, Content } from '@/api/content';
-import { WalletAPI } from '@/api/wallet';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { TimerAPI, TimerState } from '@/api/timer';
 import { CloudinaryAPI } from '@/api/cloudinary';
 import { CommunityAPI, Community } from '@/api/community';
@@ -16,9 +17,9 @@ const ORCA_COMMUNITY_ID = "a485968a-751d-4545-9bbb-740d55875707";
 
 // Changed component name
 export default function OrcaCommunity() {
-  // State for wallet connection
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  // Use Solana Wallet Adapter hooks
+  const { publicKey, connected } = useWallet();
+  const walletAddress = useMemo(() => publicKey?.toBase58(), [publicKey]);
   
   // Timer state
   const [timeLeft, setTimeLeft] = useState<TimerState>({
@@ -36,28 +37,15 @@ export default function OrcaCommunity() {
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Initialize wallet and load data
   useEffect(() => {
-    // Check if wallet is already connected
-    const storedKey = WalletAPI.getPublicKey();
-    if (storedKey) {
-      setWalletConnected(true);
-      setWalletAddress(storedKey);
-    }
-    
-    // Load initial content
+    // Wallet connection state is managed by the adapter
     loadContent();
-    
-    // Fetch community info (to get dynamic timeLimit)
     CommunityAPI.fetchCommunityById(ORCA_COMMUNITY_ID)
       .then(c => { if (c) setCommunity(c); })
       .catch(console.error);
-    
-    // Set up auto-refresh (every 10 seconds)
     const refreshInterval = setInterval(() => {
       loadContent();
     }, 10000);
-    
     return () => clearInterval(refreshInterval);
   }, []);
 
@@ -128,26 +116,6 @@ export default function OrcaCommunity() {
     }
   };
 
-  // Handle wallet connection
-  const handleConnectWallet = async () => {
-    try {
-      const publicKey = await WalletAPI.connect();
-      if (publicKey) {
-        setWalletConnected(true);
-        setWalletAddress(publicKey);
-      }
-    } catch (error) {
-      console.error('Failed to connect wallet:', error);
-    }
-  };
-
-  // Handle wallet disconnection
-  const handleDisconnectWallet = () => {
-    WalletAPI.disconnect();
-    setWalletConnected(false);
-    setWalletAddress(null);
-  };
-
   // Handle image selection
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -176,7 +144,7 @@ export default function OrcaCommunity() {
     
     if (!content.trim()) return;
     
-    if (!walletConnected) {
+    if (!connected || !walletAddress) {
       alert('Please connect your wallet first!');
       return;
     }
@@ -202,7 +170,7 @@ export default function OrcaCommunity() {
       }
       
       // Submit content with image URL if available
-      await ContentAPI.submitContent(content, ORCA_COMMUNITY_ID, imageUrl, walletAddress || undefined);
+      await ContentAPI.submitContent(content, ORCA_COMMUNITY_ID, imageUrl, walletAddress);
       
       // Reset the form
       resetForm();
@@ -243,12 +211,11 @@ export default function OrcaCommunity() {
                 <li><Link href="/iq6900" className="hover:text-cyan-400 transition">IQ6900</Link></li>
               </ul>
             </nav>
-            <button
-              onClick={walletConnected ? handleDisconnectWallet : handleConnectWallet}
-              className="px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-sm font-medium transition" // Teal theme
-            >
-              {walletConnected ? 'Disconnect Wallet' : 'Connect Wallet'}
-            </button>
+            <WalletMultiButton style={{ 
+              backgroundColor: 'transparent', 
+              border: 'none',
+              padding: 0
+             }} className="px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-sm font-medium transition" />
           </div>
         </div>
       </header>
@@ -377,7 +344,7 @@ export default function OrcaCommunity() {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
-                disabled={!walletConnected}
+                disabled={!connected}
               />
               
               <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -391,7 +358,7 @@ export default function OrcaCommunity() {
                     accept="image/*"
                     onChange={handleImageChange}
                     className="hidden"
-                    disabled={!walletConnected}
+                    disabled={!connected}
                   />
                   {imageFile && <span className="ml-3 text-sm text-gray-400">{imageFile.name}</span>}
                 </div>
@@ -409,12 +376,12 @@ export default function OrcaCommunity() {
             
             <button 
               type="submit" 
-              disabled={submitting || !walletConnected}
+              disabled={submitting || !connected}
               className="w-full py-3 mt-2 rounded-lg bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 font-bold transition disabled:opacity-50 disabled:cursor-not-allowed" // Teal theme
             >
-              {submitting ? 'Submitting...' : (walletConnected ? 'Submit Post' : 'Connect Wallet to Post')}
+              {submitting ? 'Submitting...' : (connected ? 'Submit Post' : 'Connect Wallet to Post')}
             </button>
-            {!walletConnected && <p className="text-center text-teal-400 mt-2 text-sm">You must connect your wallet to post.</p>} {/* Teal theme */}
+            {!connected && <p className="text-center text-teal-400 mt-2 text-sm">You must connect your wallet to post.</p>} {/* Teal theme */}
           </form>
 
           {/* Posts Feed - Teal theme */}
