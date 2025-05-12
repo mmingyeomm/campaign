@@ -231,132 +231,161 @@ export default function PulseCommunity() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+    <div className="flex flex-col min-h-screen bg-black text-white overflow-hidden">
+      {/* 배경 효과 */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('/images/pulsebg.jpg')] opacity-20 bg-fixed"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-black via-indigo-950/30 to-black"></div>
+        <div className="absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-purple-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-blue-600/10 rounded-full blur-3xl"></div>
+      </div>
+
+      {/* 헤더 - 글래스모피즘 적용 */}
+      <header className="sticky top-0 z-50 bg-black/30 backdrop-blur-md border-b border-indigo-800/50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/">
+          <Link href="/" className="relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/40 to-purple-500/40 rounded-lg blur-md opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
             <Image
-              src="/images/pulselogo.jpg" // Updated logo
+              src="/images/pulseLogoBlank.png"
               alt="Pulse Logo"
-              width={120} // Adjust size as needed
-              height={40} // Adjust size as needed
-              className="cursor-pointer"
+              width={120}
+              height={40}
+              className="cursor-pointer relative rounded-lg"
             />
           </Link>
           <div className="flex items-center space-x-6">
             <nav>
               <ul className="flex space-x-6">
-                <li><Link href="/" className="hover:text-sky-400 transition">Home</Link></li>
-                {/* <li><Link href="/pulse" className="text-pink-400 font-bold">Pulse</Link></li> */}
-                {/* <li><Link href="/soon" className="hover:text-sky-400 transition">Soon</Link></li> */}
-                {/* <li><Link href="/orca" className="hover:text-sky-400 transition">Orca</Link></li> */}
-                {/* <li><Link href="/iq6900" className="hover:text-sky-400 transition">IQ6900</Link></li> */}
+                <li>
+                  <Link 
+                    href="/" 
+                    className="hover:text-blue-400 transition relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-blue-400 after:to-purple-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
+                  >
+                    Home
+                  </Link>
+                </li>
               </ul>
             </nav>
             <button
               onClick={walletConnected ? handleDisconnectWallet : handleConnectWallet}
-              className="px-4 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 text-sm font-medium transition text-white"
+              className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(147,51,234,0.5)] shadow-lg relative overflow-hidden group"
             >
-              {walletConnected ? 'Disconnect Wallet' : 'Connect Wallet'}
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <span className="relative z-10">{walletConnected ? 'Disconnect Wallet' : 'Connect Wallet'}</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative py-24 overflow-hidden">
+      {/* 히어로 섹션 - 더 현대적인 디자인 */}
+      <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/pulsebg.jpg" // Updated background
+            src="/images/pulsebg.jpg"
             alt="Pulse Background"
             fill
             style={{ objectFit: 'cover' }}
             className="opacity-30"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-indigo-700/70 via-indigo-600/60 to-black/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/70 via-indigo-800/60 to-black/90"></div>
         </div>
+        
+        {/* 장식용 요소 */}
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-purple-500/20 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 rounded-full bg-blue-500/20 blur-3xl animate-pulse delay-1000"></div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-pink-400 text-transparent bg-clip-text">
-                Pulse Community Campaign 
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 text-transparent bg-clip-text drop-shadow-lg">
+                Pulse Community Campaign
               </h1>
-              <p className="text-xl mb-8 text-gray-300">
-                Join our community bootstrapper campaign for Pulse and earn rewards by posting quality content. The clock is ticking! 
+              <p className="text-xl mb-8 text-gray-300 leading-relaxed backdrop-blur-sm bg-black/10 p-6 rounded-xl border border-gray-800/50">
+                Join our community bootstrapper campaign for Pulse and earn rewards by posting quality content. The clock is ticking!
               </p>
               
-              {/* Timer Display */}
-              <div className="bg-gradient-to-br from-indigo-900/40 to-indigo-700/40 backdrop-blur-md p-6 rounded-xl mb-8 border border-indigo-500/30 shadow-lg">
-                <h3 className="text-xl font-medium mb-4 text-indigo-300">Reward Timer</h3>
+              {/* 타이머 디스플레이 - 글래스모피즘 적용 */}
+              <div className="backdrop-blur-md bg-indigo-900/20 p-8 rounded-xl border border-indigo-500/30 shadow-[0_0_25px_rgba(99,102,241,0.2)] hover:shadow-[0_0_35px_rgba(99,102,241,0.3)] transition-all duration-500">
+                <h3 className="text-xl font-medium mb-4 text-indigo-300 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                  </svg>
+                  Reward Timer
+                </h3>
                 <div className="flex justify-center gap-4">
                   <div className="text-center">
-                    <div className="text-3xl font-bold bg-indigo-900/50 rounded-lg w-16 h-16 flex items-center justify-center border border-indigo-500/20">
+                    <div className="text-3xl font-bold bg-gradient-to-br from-indigo-900/50 to-purple-900/50 backdrop-blur-md rounded-lg w-16 h-16 flex items-center justify-center border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
                       {timeLeft.hours.toString().padStart(2, '0')}
                     </div>
-                    <div className="text-xs mt-2 text-indigo-300">HOURS</div>
+                    <div className="text-xs mt-2 text-indigo-300 font-medium tracking-wider">HOURS</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold bg-indigo-900/50 rounded-lg w-16 h-16 flex items-center justify-center border border-indigo-500/20">
+                    <div className="text-3xl font-bold bg-gradient-to-br from-indigo-900/50 to-purple-900/50 backdrop-blur-md rounded-lg w-16 h-16 flex items-center justify-center border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
                       {timeLeft.minutes.toString().padStart(2, '0')}
                     </div>
-                    <div className="text-xs mt-2 text-indigo-300">MINUTES</div>
+                    <div className="text-xs mt-2 text-indigo-300 font-medium tracking-wider">MINUTES</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold bg-indigo-900/50 rounded-lg w-16 h-16 flex items-center justify-center border border-indigo-500/20">
+                    <div className="text-3xl font-bold bg-gradient-to-br from-indigo-900/50 to-purple-900/50 backdrop-blur-md rounded-lg w-16 h-16 flex items-center justify-center border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
                       {timeLeft.seconds.toString().padStart(2, '0')}
                     </div>
-                    <div className="text-xs mt-2 text-indigo-300">SECONDS</div>
+                    <div className="text-xs mt-2 text-indigo-300 font-medium tracking-wider">SECONDS</div>
                   </div>
                 </div>
-                <p className="text-sm mt-4 text-center text-gray-300">
+                <p className="text-sm mt-4 text-center text-gray-300 backdrop-blur-sm bg-indigo-900/10 p-2 rounded-lg border border-indigo-500/20">
                   Last poster when timer expires wins the round's rewards!
                 </p>
               </div>
             </div>
             
             <div className="md:w-1/2">
-              <div className="relative">
-                <div className="relative bg-indigo-950/60 backdrop-blur-xl p-8 rounded-2xl border border-slate-300/10 shadow-xl overflow-hidden">
-                  <div className="flex items-center mb-6">
-                    <div className="relative w-16 h-16 mr-5 flex-shrink-0 bg-indigo-800/50 rounded-xl flex items-center justify-center border border-slate-300/10 p-2">
+              <div className="relative group">
+                {/* <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500 scale-105"></div> */}
+                <div className="relative backdrop-blur-xl bg-indigo-950/60 p-8 rounded-2xl border border-slate-300/10 shadow-xl overflow-hidden">
+                  <div className="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-purple-500/10 rounded-full blur-xl"></div>
+                  <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-32 h-32 bg-blue-500/10 rounded-full blur-xl"></div>
+                  
+                  <div className="flex items-center mb-6 relative">
+                    <div className="relative w-16 h-16 mr-5 flex-shrink-0 bg-gradient-to-br from-indigo-800/50 to-purple-800/50 rounded-xl flex items-center justify-center border border-slate-300/20 p-2 shadow-[0_0_15px_rgba(99,102,241,0.3)]">
                       <Image 
-                        src="/images/pulselogo.jpg" // Updated Logo
+                        src="/images/pulselogo.jpg"
                         alt="Pulse Logo" 
                         width={48}
                         height={48}
                         style={{ objectFit: 'contain' }}
+                        className="rounded-lg"
                       />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-semibold text-white">Pulse Community</h3> 
-                      <p className="text-pink-400 text-sm font-medium">Featured Project</p>
+                      <h3 className="text-2xl font-semibold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">Pulse Community</h3> 
+                      <p className="text-purple-400 text-sm font-medium">Featured Project</p>
                     </div>
                   </div>
-                  <p className="text-gray-200 mb-6 text-base">
-                    Pulse is redefining community engagement. Join the movement! 
+                  
+                  <p className="text-gray-200 mb-6 text-base backdrop-blur-sm bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/20">
+                    Pulse is redefining community engagement through innovative tokenized participation models and time-based rewards. Join the movement!
                   </p>
                   
                   <div className="flex justify-around items-center border-t border-b border-slate-300/10 py-4 mb-6 text-center">
                     <div>
-                      <div className="text-2xl font-bold text-indigo-300">{community?.bountyAmount ? parseFloat(community.bountyAmount).toFixed(2) : '100.00'}</div>
+                      <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">{community?.bountyAmount ? parseFloat(community.bountyAmount).toFixed(2) : '100.00'}</div>
                       <div className="text-xs text-gray-400 uppercase tracking-wider">PULSE Tokens</div>
                     </div>
                     <div className="border-l border-slate-300/10 h-10"></div>
                     <div>
-                      <div className="text-2xl font-bold text-indigo-300">{posts.length}</div>
+                      <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">{posts.length}</div>
                       <div className="text-xs text-gray-400 uppercase tracking-wider">Participants</div>
                     </div>
                   </div>
 
                   <a 
-                    href="https://pulse.community" // Update link if needed
+                    href="https://pulse.community"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full py-3 bg-sky-500 hover:bg-sky-600 text-white text-center rounded-lg font-semibold text-sm transition duration-300 shadow-md hover:shadow-lg"
+                    className="block w-full py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white text-center rounded-lg font-semibold text-sm transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] relative overflow-hidden group"
                   >
-                    Learn More About Pulse 
+                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="relative z-10">Learn More About Pulse</span>
                   </a>
                 </div>
               </div>
@@ -365,24 +394,30 @@ export default function PulseCommunity() {
         </div>
       </section>
 
-      {/* Content Posting Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-900/80 to-indigo-900/20 relative">
-        <div className="absolute inset-0 bg-[url('/images/pulsebg.jpg')] opacity-5 bg-fixed"></div> {/* Updated background */}
+      {/* 콘텐츠 포스팅 섹션 - 글래스모피즘 적용 */}
+      <section className="py-20 relative overflow-hidden">
+        {/* 배경 효과 */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[url('/images/pulsebg.jpg')] opacity-5 bg-fixed"></div>
+          <div className="absolute top-0 right-1/3 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+        </div>
+        
         <div className="max-w-4xl mx-auto px-4 relative z-10">
           <div className="mb-14 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-pink-400 text-transparent bg-clip-text inline-block">
-              Post About Pulse 
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-600 text-transparent bg-clip-text inline-block">
+              Post About Pulse
             </h2>
-            <div className="h-1 w-40 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto"></div>
+            <div className="h-1 w-40 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"></div>
           </div>
           
-          {/* Post Form */}
+          {/* 포스트 폼 - 글래스모피즘 적용 */}
           <form onSubmit={handleSubmit} className="mb-12">
-            <div className="bg-gradient-to-br from-indigo-900/30 to-indigo-800/30 rounded-xl p-6 mb-4 border border-indigo-500/20 shadow-lg">
+            <div className="backdrop-blur-md bg-gradient-to-br from-indigo-900/20 to-purple-900/20 rounded-xl p-6 mb-4 border border-indigo-500/30 shadow-[0_0_25px_rgba(99,102,241,0.2)] hover:shadow-[0_0_35px_rgba(99,102,241,0.3)] transition-all duration-500">
               <textarea
-                className="w-full bg-indigo-900/40 border border-indigo-500/30 rounded-lg p-4 text-white resize-none focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full backdrop-blur-md bg-indigo-900/30 border border-indigo-500/30 rounded-lg p-4 text-white resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
                 rows={4}
-                placeholder="Share your thoughts about Pulse..." // Updated Text
+                placeholder="Share your thoughts about Pulse..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
@@ -391,7 +426,7 @@ export default function PulseCommunity() {
               
               <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                  <label htmlFor="image-upload" className="cursor-pointer px-4 py-2 rounded-lg bg-indigo-800/50 hover:bg-indigo-700/60 border border-indigo-500/30 text-indigo-300 text-sm transition">
+                  <label htmlFor="image-upload" className="cursor-pointer px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500/80 to-purple-500/80 hover:from-blue-600/80 hover:to-purple-600/80 backdrop-blur-sm border border-indigo-500/30 text-white text-sm transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-[0_0_15px_rgba(99,102,241,0.3)]">
                     {imageFile ? 'Change Image' : 'Upload Image'}
                   </label>
                   <input 
@@ -402,16 +437,20 @@ export default function PulseCommunity() {
                     className="hidden"
                     disabled={!walletConnected}
                   />
-                  {imageFile && <span className="ml-3 text-sm text-gray-400">{imageFile.name}</span>}
+                  {imageFile && <span className="ml-3 text-sm text-gray-300">{imageFile.name}</span>}
                 </div>
                 {imagePreview && (
-                  <Image 
-                    src={imagePreview} 
-                    alt="Preview" 
-                    width={64} 
-                    height={64} 
-                    className="rounded-lg object-cover border border-indigo-500/30"
-                  />
+                  <div className="relative group">
+                    <div className="relative">
+                      <Image 
+                        src={imagePreview} 
+                        alt="Preview" 
+                        width={64} 
+                        height={64} 
+                        className="rounded-lg object-cover"
+                      />
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
@@ -419,60 +458,82 @@ export default function PulseCommunity() {
             <button 
               type="submit" 
               disabled={submitting || !walletConnected}
-              className="w-full py-3 mt-2 rounded-lg bg-gradient-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 font-bold transition disabled:opacity-50 disabled:cursor-not-allowed text-white"
+              className="w-full py-3 mt-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-white transform hover:scale-105 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] relative overflow-hidden group"
             >
-              {submitting ? 'Submitting...' : (walletConnected ? 'Submit Post' : 'Connect Wallet to Post')}
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <span className="relative z-10">{submitting ? 'Submitting...' : (walletConnected ? 'Submit Post' : 'Connect Wallet to Post')}</span>
             </button>
-            {!walletConnected && <p className="text-center text-pink-400 mt-2 text-sm">You must connect your wallet to post.</p>}
+            {!walletConnected && <p className="text-center text-purple-400 mt-2 text-sm">You must connect your wallet to post.</p>}
           </form>
           
-          {/* Posts Feed */}
+          {/* 포스트 피드 - 글래스모피즘 적용 */}
           <div className="space-y-6">
-            <h3 className="text-2xl font-bold mb-6 text-indigo-300">Recent Community Posts</h3>
+            <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">Recent Community Posts</h3>
             
             {loading && (
-              <div className="py-8 text-center text-gray-400">
-                Loading posts...
+              <div className="py-8 text-center">
+                <div className="inline-block w-12 h-12 border-4 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+                <p className="mt-4 text-indigo-300">Loading posts...</p>
               </div>
             )}
             
             {!loading && posts.length === 0 && (
-              <div className="py-8 text-center text-gray-400">
-                Be the first to post content about Pulse! {/* Updated Text */}
+              <div className="py-12 text-center backdrop-blur-md bg-indigo-900/20 rounded-xl border border-indigo-500/30">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto text-indigo-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                </svg>
+                <p className="text-xl text-indigo-300 font-medium">Be the first to post content about Pulse!</p>
+                <p className="mt-2 text-gray-400">Start the conversation and earn rewards.</p>
               </div>
             )}
             
             {posts.map((post) => (
-              <div key={post.id} className="bg-gradient-to-br from-indigo-900/30 to-indigo-800/30 rounded-xl p-6 border border-indigo-500/20 shadow-lg">
+              <div key={post.id} className="backdrop-blur-md bg-gradient-to-br from-indigo-900/20 to-purple-900/20 rounded-xl p-6 border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.1)] hover:shadow-[0_0_25px_rgba(99,102,241,0.2)] transition-all duration-500 group">
                 <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gradient-to-r from-indigo-500 to-pink-500 flex items-center justify-center border border-indigo-500/30">
-                    {/* Consider using a generic icon or fetching user profile pic if available */}
+                  <div className="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center border border-indigo-500/30 shadow-[0_0_10px_rgba(99,102,241,0.3)] group-hover:shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all duration-300">
                     <span className="font-bold text-white">{ContentAPI.formatWalletAddress(post.walletAddress).charAt(0)}</span>
                   </div>
                   <div>
-                    <h4 className="font-bold text-indigo-300">{ContentAPI.formatWalletAddress(post.walletAddress)}</h4>
+                    <h4 className="font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">{ContentAPI.formatWalletAddress(post.walletAddress)}</h4>
                     <p className="text-xs text-gray-400">
                       {ContentAPI.formatDate(post.createdAt)}
                     </p>
                   </div>
                 </div>
-                <p className="text-gray-200">{post.content}</p>
+                <p className="text-gray-200 backdrop-blur-sm bg-indigo-900/10 p-3 rounded-lg border border-indigo-500/10 group-hover:border-indigo-500/20 transition-all duration-300">{post.content}</p>
                 
                 {post.imageURL && (
-                  <div className="mt-4">
-                    <img 
-                      src={post.imageURL} 
-                      alt="Content" 
-                      className="max-h-60 rounded-lg border border-indigo-500/20"
-                    />
+                  <div className="mt-4 relative group">
+                    <div className="relative">
+                      <img 
+                        src={post.imageURL} 
+                        alt="Content" 
+                        className="rounded-lg max-w-md max-h-48 object-cover"
+                      />
+                    </div>
                   </div>
                 )}
                 
-                {/* Placeholder interaction buttons - Implement functionality as needed */}
+                {/* 인터랙션 버튼 - 네온 효과 추가 */}
                 <div className="flex gap-4 mt-4">
-                  <button className="text-gray-400 text-sm hover:text-sky-400 transition">Like</button>
-                  <button className="text-gray-400 text-sm hover:text-sky-400 transition">Reply</button>
-                  <button className="text-gray-400 text-sm hover:text-sky-400 transition">Share</button>
+                  <button className="text-gray-400 text-sm hover:text-blue-400 transition-colors duration-300 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    Like
+                  </button>
+                  <button className="text-gray-400 text-sm hover:text-purple-400 transition-colors duration-300 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    Reply
+                  </button>
+                  <button className="text-gray-400 text-sm hover:text-blue-400 transition-colors duration-300 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                    Share
+                  </button>
                 </div>
               </div>
             ))}
@@ -480,108 +541,120 @@ export default function PulseCommunity() {
         </div>
       </section>
 
-      {/* Rewards Section - Keep structure, update text/values if needed */}
-      <section id="rewards" className="py-20 bg-gradient-to-b from-indigo-900/20 to-black">
-        <div className="max-w-6xl mx-auto px-4">
+      {/* 리워드 섹션 - 글래스모피즘 적용 */}
+      <section id="rewards" className="py-20 relative overflow-hidden">
+        {/* 배경 효과 */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-6xl mx-auto px-4 relative z-10">
           <div className="mb-14 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-pink-400 text-transparent bg-clip-text inline-block">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text inline-block">
               Campaign Rewards
             </h2>
-            <div className="h-1 w-40 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto"></div>
+            <div className="h-1 w-40 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"></div>
           </div>
           
-          {/* Rewards Grid - Review and update reward details for Pulse campaign */}
+          {/* 리워드 그리드 - 글래스모피즘 적용 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Winner Rewards Box */}
-            <div className="bg-gradient-to-br from-indigo-900/40 to-indigo-800/40 border border-indigo-500/30 p-8 rounded-xl shadow-lg hover:border-indigo-500/50 transition duration-300">
-              <h3 className="text-2xl font-bold mb-6 text-indigo-300">Winner Rewards</h3>
+            {/* 우승자 리워드 박스 */}
+            <div className="backdrop-blur-md bg-gradient-to-br from-blue-900/20 to-indigo-900/20 border border-blue-500/30 p-8 rounded-xl shadow-[0_0_25px_rgba(59,130,246,0.2)] hover:shadow-[0_0_35px_rgba(59,130,246,0.3)] transition-all duration-500 group">
+              <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-indigo-400 text-transparent bg-clip-text">Winner Rewards</h3>
               <ul className="space-y-4">
-                {/* Example Reward Item - Update these */}
                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 flex items-center justify-center mr-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center mr-4 shadow-[0_0_10px_rgba(59,130,246,0.5)] group-hover:shadow-[0_0_15px_rgba(59,130,246,0.7)] transition-all duration-300">
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
-                    <span className="text-lg font-medium text-gray-100">X PULSE Tokens</span> 
-                    <p className="text-sm text-gray-300">Reward description</p>
+                    <span className="text-lg font-medium bg-gradient-to-r from-blue-300 to-indigo-300 text-transparent bg-clip-text group-hover:from-blue-200 group-hover:to-indigo-200 transition-all duration-300">X PULSE Tokens</span> 
+                    <p className="text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">Reward description</p>
                   </div>
                 </li>
-                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 flex items-center justify-center mr-4">
+                <li className="flex items-center">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center mr-4 shadow-[0_0_10px_rgba(59,130,246,0.5)] group-hover:shadow-[0_0_15px_rgba(59,130,246,0.7)] transition-all duration-300">
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
-                    <span className="text-lg font-medium text-gray-100">Exclusive NFT Badge</span>
-                    <p className="text-sm text-gray-300">Unique digital collectible</p>
+                    <span className="text-lg font-medium bg-gradient-to-r from-blue-300 to-indigo-300 text-transparent bg-clip-text group-hover:from-blue-200 group-hover:to-indigo-200 transition-all duration-300">Exclusive NFT Badge</span>
+                    <p className="text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">Unique digital collectible</p>
                   </div>
                 </li>
-                {/* Add/Remove/Modify other rewards */}
               </ul>
             </div>
             
-            {/* Active Participant Rewards Box */}
-            <div className="bg-gradient-to-br from-indigo-900/40 to-indigo-800/40 border border-indigo-500/30 p-8 rounded-xl shadow-lg hover:border-indigo-500/50 transition duration-300">
-              <h3 className="text-2xl font-bold mb-6 text-indigo-300">Active Participant Rewards</h3>
+            {/* 활발한 참가자 리워드 박스 */}
+            <div className="backdrop-blur-md bg-gradient-to-br from-purple-900/20 to-indigo-900/20 border border-purple-500/30 p-8 rounded-xl shadow-[0_0_25px_rgba(139,92,246,0.2)] hover:shadow-[0_0_35px_rgba(139,92,246,0.3)] transition-all duration-500 group">
+              <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-indigo-400 text-transparent bg-clip-text">Active Participant Rewards</h3>
               <ul className="space-y-4">
-                {/* Example Reward Item - Update these */}
-                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 flex items-center justify-center mr-4">
+                <li className="flex items-center">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center mr-4 shadow-[0_0_10px_rgba(139,92,246,0.5)] group-hover:shadow-[0_0_15px_rgba(139,92,246,0.7)] transition-all duration-300">
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
-                    <span className="text-lg font-medium text-gray-100">Y PULSE Tokens per quality post</span>
-                    <p className="text-sm text-gray-300">Earn for contributing</p>
+                    <span className="text-lg font-medium bg-gradient-to-r from-purple-300 to-indigo-300 text-transparent bg-clip-text group-hover:from-purple-200 group-hover:to-indigo-200 transition-all duration-300">Y PULSE Tokens per quality post</span>
+                    <p className="text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">Earn for contributing</p>
                   </div>
                 </li>
-                 <li className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 flex items-center justify-center mr-4">
+                <li className="flex items-center">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center mr-4 shadow-[0_0_10px_rgba(139,92,246,0.5)] group-hover:shadow-[0_0_15px_rgba(139,92,246,0.7)] transition-all duration-300">
                     <span className="text-white text-sm">✦</span>
                   </div>
                   <div>
-                    <span className="text-lg font-medium text-gray-100">Community Badges</span>
-                    <p className="text-sm text-gray-300">Based on contribution</p>
+                    <span className="text-lg font-medium bg-gradient-to-r from-purple-300 to-indigo-300 text-transparent bg-clip-text group-hover:from-purple-200 group-hover:to-indigo-200 transition-all duration-300">Community Badges</span>
+                    <p className="text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">Based on contribution</p>
                   </div>
                 </li>
-                {/* Add/Remove/Modify other rewards */}
               </ul>
             </div>
           </div>
           
           <div className="mt-16 text-center">
-            <p className="text-xl mb-8 text-indigo-300">Don't miss your chance to participate in the Pulse campaign!</p> 
-            <a href="#top" className="px-8 py-3 bg-gradient-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 rounded-full font-bold text-lg inline-block transition-all duration-300 transform hover:scale-105 shadow-lg text-white">
-              Start Posting Now
+            <p className="text-xl mb-8 text-indigo-300 backdrop-blur-sm bg-indigo-900/10 p-4 rounded-lg inline-block">Don't miss your chance to participate in the Pulse campaign!</p> 
+            <a 
+              href="#top" 
+              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-full font-bold text-lg inline-block transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] relative overflow-hidden group"
+            >
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <span className="relative z-10">Start Posting Now</span>
             </a>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-black/80 py-10 border-t border-indigo-900/30">
-        <div className="max-w-7xl mx-auto px-4">
+      {/* 푸터 - 글래스모피즘 적용 */}
+      <footer className="bg-black/50 backdrop-blur-md py-10 border-t border-indigo-900/30 relative overflow-hidden">
+        {/* 배경 효과 */}
+        <div className="absolute inset-0">
+          <div className="absolute bottom-0 right-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-64 h-64 bg-purple-600/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
+            <div className="mb-6 md:mb-0 group">
               <Image
-                src="/images/pulselogo.jpg" // Updated logo
+                src="/images/pulselogo.jpg"
                 alt="Pulse Logo"
-                width={100} // Adjust size as needed
-                height={30} // Adjust size as needed
+                width={100}
+                height={30}
+                className="rounded-lg transition-transform duration-300 group-hover:scale-105"
               />
-              <p className="mt-2 text-indigo-300">Empowering communities through engagement</p>
+              <p className="mt-2 text-blue-300 group-hover:text-blue-200 transition-colors duration-300">Empowering communities through engagement</p>
             </div>
-            {/* Update social links if needed */}
             <div className="flex space-x-6">
-              <a href="#" className="text-gray-300 hover:text-sky-400 transition">Twitter</a>
-              <a href="#" className="text-gray-300 hover:text-sky-400 transition">Discord</a>
-              <a href="#" className="text-gray-300 hover:text-sky-400 transition">Medium</a>
-              <a href="#" className="text-gray-300 hover:text-sky-400 transition">GitHub</a>
+              <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors duration-300 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-blue-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300">Twitter</a>
+              <a href="#" className="text-gray-300 hover:text-purple-400 transition-colors duration-300 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-purple-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300">Discord</a>
+              <a href="#" className="text-gray-300 hover:text-pink-400 transition-colors duration-300 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-pink-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300">Medium</a>
+              <a href="#" className="text-gray-300 hover:text-indigo-400 transition-colors duration-300 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-indigo-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300">GitHub</a>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-indigo-800 text-center text-gray-400">
-            <p>© {new Date().getFullYear()} Pulse. All rights reserved.</p>
+          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
+            <p className="group">© {new Date().getFullYear()} <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text group-hover:from-blue-300 group-hover:to-purple-400 transition-all duration-300">Pulse</span>. All rights reserved.</p>
           </div>
         </div>
       </footer>
     </div>
   );
-} 
+}

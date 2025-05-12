@@ -175,34 +175,53 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+    <div className="flex flex-col min-h-screen bg-black text-white overflow-hidden">
+      {/* 배경 효과 */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('/images/background.png')] opacity-20 bg-fixed"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-black via-blue-950/30 to-black"></div>
+        <div className="absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-purple-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-blue-600/10 rounded-full blur-3xl"></div>
+      </div>
+
+      {/* 헤더 - 글래스모피즘 적용 */}
+      <header className="sticky top-0 z-50 bg-black/30 backdrop-blur-md border-b border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/">
+          <Link href="/" className="relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/40 to-purple-500/40 rounded-lg blur-md opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
             <Image
               src="/images/pulseLogoBlank.png"
               alt="Pulse Logo"
               width={120}
               height={40}
-              className="cursor-pointer"
+              className="cursor-pointer relative"
             />
           </Link>
           <nav>
             <ul className="flex space-x-6">
-              <li><Link href="/" className="text-blue-400 font-bold">Home</Link></li>
-              {/* <li><Link href="/pulse" className="hover:text-pink-400 transition">Pulse</Link></li> */}
-              {/* <li><Link href="/soon" className="hover:text-blue-400 transition">Soon</Link></li> */}
-              {/* <li><Link href="/orca" className="hover:text-blue-400 transition">Orca</Link></li> */}
-              {/* <li><Link href="/iq6900" className="hover:text-blue-400 transition">IQ6900</Link></li> */}
-              <li><Link href="#about" className="hover:text-blue-400 transition">About</Link></li>
+              <li>
+                <Link 
+                  href="/" 
+                  className="text-blue-400 font-bold relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-blue-400 after:to-purple-500 after:origin-bottom-right after:scale-x-100"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="#about" 
+                  className="hover:text-blue-400 transition relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-blue-400 after:to-purple-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
+                >
+                  About
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative py-24 overflow-hidden">
+      {/* 히어로 섹션 - 더 현대적인 디자인 */}
+      <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/background.png"
@@ -214,35 +233,26 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
         </div>
         
+        {/* 장식용 요소 */}
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-purple-500/20 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 rounded-full bg-blue-500/20 blur-3xl animate-pulse delay-1000"></div>
+        
         <div className="relative z-10 max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-600 text-transparent bg-clip-text">
+            <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 text-transparent bg-clip-text drop-shadow-lg">
               Pulse Community Bootstrapper
             </h1>
-            <p className="text-xl mb-8 max-w-3xl mx-auto text-gray-300">
+            <div className="w-24 h-1 mx-auto bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-8"></div>
+            <p className="text-xl mb-8 max-w-3xl mx-auto text-gray-300 leading-relaxed backdrop-blur-sm bg-black/10 p-6 rounded-xl border border-gray-800/50">
               Participate in community bootstrapping campaigns and earn rewards by posting quality content about your favorite projects.
             </p>
-            {/* Buttons moved to Round 3 Section */}
-            {/* <div className="flex flex-wrap justify-center gap-4">
-              <Link 
-                href="#active-campaigns" // Changed href to scroll to section
-                className="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 font-medium transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                Join Pulse Campaign
-              </Link>
-              <Link 
-                href="#how-it-works" 
-                className="px-6 py-3 rounded-lg bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 font-medium transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                Learn More
-              </Link>
-            </div> */}
           </div>
         </div>
       </section>
 
-      {/* Round 3 Coming Soon Section - Refined Styling */}
-      <section className="py-20">
+      {/* Round 3 Coming Soon Section - 현대적인 Web3 스타일 */}
+      <section className="py-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/10 to-purple-900/10"></div>
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
           {/* 현대적인 Web3 스타일 이미지 프레임 */}
           <div className="flex-shrink-0 group relative">
@@ -259,12 +269,12 @@ export default function Home() {
                 />
               </div>
             </div>
-            {/* 선택적: 장식용 요소 추가 */}
+            {/* 장식용 요소 추가 */}
             <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-60 animate-pulse"></div>
             <div className="absolute -bottom-3 -left-3 w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full blur-xl opacity-60 animate-pulse delay-700"></div>
           </div>
 
-          {/* 텍스트 콘텐츠 & 버튼 (기존 코드 유지) */}
+          {/* 텍스트 콘텐츠 & 버튼 */}
           <div className="text-center md:text-left">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 text-transparent bg-clip-text">
               Round 3 is Coming Soon!
@@ -275,13 +285,13 @@ export default function Home() {
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
               <Link 
                 href="#active-campaigns"
-                className="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 font-medium transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] shadow-lg"
               >
                 Join Pulse Campaign
               </Link>
               <Link 
                 href="/round3"
-                className="px-6 py-3 rounded-lg bg-gradient-to-r from-gray-800/80 to-gray-900/80 hover:from-gray-700 hover:to-gray-800 backdrop-blur-sm font-medium border border-gray-700/50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:border-purple-500/50"
+                className="px-6 py-3 rounded-lg bg-gradient-to-r from-gray-800/80 to-gray-900/80 hover:from-gray-700 hover:to-gray-800 backdrop-blur-sm font-medium border border-gray-700/50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:border-purple-500/50 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]"
               >
                 What is Round 3?
               </Link>
@@ -290,10 +300,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Active Campaigns Section - Refined Card Styling */}
+      {/* Active Campaigns Section - 글래스모피즘 적용 */}
       <section id="active-campaigns" className="py-24 relative overflow-hidden">
-        {/* Simplified background elements */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/80 to-black opacity-80"></div>
+        {/* 배경 효과 */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+        </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4">
           <div className="mb-14 text-center">
@@ -304,54 +317,55 @@ export default function Home() {
           </div>
           
           <div className="max-w-5xl mx-auto space-y-12">
-            {/* Pulse Campaign Card - Simplified Styling & Hover */}
+            {/* Pulse Campaign Card - 글래스모피즘 적용 */}
             {pulseCommunityData && (
-              <div className="bg-gray-800/50 rounded-xl shadow-lg border border-gray-700 hover:border-pink-500/80 transition-all duration-300 overflow-hidden group transform hover:-translate-y-1 hover:shadow-pink-900/20 hover:shadow-xl">
+              <div className="backdrop-blur-md bg-gray-900/30 rounded-xl border border-gray-800/50 overflow-hidden group transition-all duration-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] hover:border-purple-500/30">
                 <div className="flex flex-col md:flex-row">
-                  {/* Image container with subtle hover effect */}
-                  <div className="md:w-1/3 relative h-40 md:h-auto flex items-center justify-center bg-gradient-to-br from-indigo-900/60 to-gray-900/80 overflow-hidden transition duration-300 group-hover:from-indigo-800/70">
+                  {/* 이미지 컨테이너 */}
+                  <div className="md:w-1/3 relative h-40 md:h-auto flex items-center justify-center bg-gradient-to-br from-indigo-900/60 to-gray-900/80 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 to-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <Image 
                       src="/images/pulselogo.jpg" 
                       alt="Pulse Logo" 
                       fill
                       style={{ objectFit: 'contain', padding: '1rem' }} 
-                      className="transition duration-300 group-hover:scale-105"
+                      className="transition duration-500 group-hover:scale-105"
                     />
                   </div>
-                  <div className="md:w-2/3 p-6 md:p-8"> {/* Adjusted padding */}
-                    <div className="flex items-center mb-3"> {/* Reduced margin */}
-                      <h3 className="text-2xl font-bold text-white">{pulseCommunityData?.name || 'Pulse Community'}</h3>
+                  <div className="md:w-2/3 p-6 md:p-8">
+                    <div className="flex items-center mb-3">
+                      <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">{pulseCommunityData?.name || 'Pulse Community'}</h3>
                       <span className="ml-3 px-3 py-1 bg-pink-500/20 text-pink-300 text-xs font-medium rounded-full border border-pink-500/30">
                         Active
                       </span>
                     </div>
-                    <p className="text-gray-300 mb-5 text-sm"> {/* Adjusted text size/margin */}
+                    <p className="text-gray-300 mb-5 text-sm">
                       {pulseCommunityData?.description || 'Engage with the core Pulse community. Share your ideas, contributions, and help shape the future!'}
                     </p>
-                    {/* Stats Grid - Simplified Styling */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6"> {/* Reduced gap */}
-                      <div className="bg-gray-900/60 p-3 rounded-lg text-center border border-gray-700/70">
-                        <div className="text-xl font-bold text-pink-300">{pulsePostsCount > 0 ? pulsePostsCount : '0'}</div>
-                        <div className="text-xs text-gray-400 uppercase tracking-wider">Participants</div> {/* Updated text style */}
+                    {/* 통계 그리드 - 글래스모피즘 적용 */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                      <div className="backdrop-blur-md bg-gray-800/40 p-3 rounded-lg text-center border border-gray-700/50 group-hover:border-blue-500/30 transition-all duration-300">
+                        <div className="text-xl font-bold text-blue-300">{pulsePostsCount > 0 ? pulsePostsCount : '0'}</div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider">Participants</div>
                       </div>
-                      <div className="bg-gray-900/60 p-3 rounded-lg text-center border border-gray-700/70">
-                        <div className="text-xl font-bold text-pink-300">{pulseCommunityData?.bountyAmount || '100'}</div>
+                      <div className="backdrop-blur-md bg-gray-800/40 p-3 rounded-lg text-center border border-gray-700/50 group-hover:border-purple-500/30 transition-all duration-300">
+                        <div className="text-xl font-bold text-purple-300">{pulseCommunityData?.bountyAmount || '100'}</div>
                         <div className="text-xs text-gray-400 uppercase tracking-wider">PULSE Tokens</div>
                       </div>
-                      <div className="bg-gray-900/60 p-3 rounded-lg text-center border border-gray-700/70">
+                      <div className="backdrop-blur-md bg-gray-800/40 p-3 rounded-lg text-center border border-gray-700/50 group-hover:border-pink-500/30 transition-all duration-300">
                         <div className="text-xl font-bold text-pink-300">{pulseTimeLeft}</div>
                         <div className="text-xs text-gray-400 uppercase tracking-wider">Time Left</div>
                       </div>
-                      <div className="bg-gray-900/60 p-3 rounded-lg text-center border border-gray-700/70">
-                        <div className="text-xl font-bold text-pink-300">{pulsePostsCount}</div>
+                      <div className="backdrop-blur-md bg-gray-800/40 p-3 rounded-lg text-center border border-gray-700/50 group-hover:border-indigo-500/30 transition-all duration-300">
+                        <div className="text-xl font-bold text-indigo-300">{pulsePostsCount}</div>
                         <div className="text-xs text-gray-400 uppercase tracking-wider">Posts</div>
                       </div>
                     </div>
-                     {/* Buttons - Ensure consistent styling */}
+                    {/* 버튼 - 네온 효과 추가 */}
                     <div className="flex flex-wrap gap-3">
                       <Link 
                         href="/pulse" 
-                        className="px-5 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 text-white text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                        className="px-5 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-[0_0_15px_rgba(236,72,153,0.5)]"
                       >
                         Join Campaign
                       </Link>
@@ -359,7 +373,7 @@ export default function Home() {
                         href={pulseCommunityData?.imageURL || "#"}
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="px-5 py-2 rounded-lg bg-gray-700/60 hover:bg-gray-600/80 text-sm font-medium border border-gray-600 text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                        className="px-5 py-2 rounded-lg bg-gray-800/60 backdrop-blur-sm hover:bg-gray-700/80 text-sm font-medium border border-gray-700/50 hover:border-blue-500/30 text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]"
                       >
                         Learn About Pulse
                       </a>
@@ -368,19 +382,19 @@ export default function Home() {
                 </div>
               </div>
             )}
-            
-            {/* Commented out other campaigns - apply similar style refinements if re-enabled */}
-            {/* {soonCommunityData && (...)} */}
-            {/* {orcaCommunityData && (...)} */}
-            {/* {iq6900CommunityData && (...)} */}
-
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-20 bg-gray-900/70">
-        <div className="max-w-7xl mx-auto px-4">
+      {/* About Section - 글래스모피즘 적용 */}
+      <section id="about" className="py-20 relative overflow-hidden">
+        {/* 배경 효과 */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="mb-14 text-center">
             <h2 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-600 text-transparent bg-clip-text inline-block">
               What is Pulse?
@@ -389,8 +403,8 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h3 className="text-2xl font-bold mb-6 text-blue-300">Community Bootstrapper Platform</h3>
+            <div className="backdrop-blur-md bg-gray-900/30 p-8 rounded-xl border border-gray-800/50 transition-all duration-300 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+              <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-indigo-400 text-transparent bg-clip-text">Community Bootstrapper Platform</h3>
               <p className="text-lg mb-6 text-gray-200">
                 Pulse is a revolutionary platform designed to help communities grow through active engagement and participation. We create a dynamic environment where contributors are rewarded and communities thrive.
               </p>
@@ -412,19 +426,19 @@ export default function Home() {
                 </li>
               </ul>
             </div>
-            <div className="bg-gradient-to-br from-blue-900/50 to-purple-900/50 rounded-xl p-6 border border-blue-500/30 shadow-lg">
+            <div className="backdrop-blur-md bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-xl p-8 border border-blue-500/20 shadow-lg hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] transition-all duration-300">
               <div className="flex items-center mb-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center mr-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center mr-3 shadow-[0_0_10px_rgba(139,92,246,0.5)]">
                   <span className="text-xl font-bold text-white">P</span>
                 </div>
-                <h3 className="text-2xl font-bold text-blue-300">Join Our Current Campaign: Pulse Community</h3>
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">Join Our Current Campaign: Pulse Community</h3>
               </div>
               <p className="mb-6 text-gray-200">
                 Participate in our Pulse community campaign and help boost content about the core platform. Share insights, feedback, and earn rewards.
               </p>
               <ul className="space-y-3 mb-6">
                 <li className="flex items-center">
-                  <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center mr-3 shadow-[0_0_5px_rgba(99,102,241,0.5)]">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -432,7 +446,7 @@ export default function Home() {
                   <span className="text-gray-200">24-hour countdown timer</span>
                 </li>
                 <li className="flex items-center">
-                  <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center mr-3 shadow-[0_0_5px_rgba(139,92,246,0.5)]">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -440,7 +454,7 @@ export default function Home() {
                   <span className="text-gray-200">100 PULSE tokens reward</span>
                 </li>
                 <li className="flex items-center">
-                  <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center mr-3 shadow-[0_0_5px_rgba(236,72,153,0.5)]">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -450,7 +464,7 @@ export default function Home() {
               </ul>
               <Link
                 href="/pulse"
-                className="block w-full py-3 bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 text-center rounded-lg font-bold transition duration-300 text-white"
+                className="block w-full py-3 bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 text-center rounded-lg font-bold transition duration-300 text-white shadow-md hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] transform hover:scale-[1.02]"
               >
                 Join the Campaign
               </Link>
@@ -459,9 +473,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section id="how-it-works" className="py-20 bg-gradient-to-b from-gray-900/70 to-blue-900/20 relative">
+      {/* How It Works - 글래스모피즘 적용 */}
+      <section id="how-it-works" className="py-20 relative overflow-hidden">
+        {/* 배경 효과 */}
         <div className="absolute inset-0 bg-[url('/images/background.png')] opacity-5 bg-fixed"></div>
+        <div className="absolute top-0 left-1/3 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+        
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="mb-14 text-center">
             <h2 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-600 text-transparent bg-clip-text inline-block">
@@ -471,26 +489,35 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 p-8 rounded-xl transition-all duration-300 hover:transform hover:translate-y-[-5px] border border-blue-500/20 shadow-lg">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-2xl font-bold mb-6 shadow-md">1</div>
-              <h3 className="text-xl font-bold mb-4 text-blue-300">Join a Campaign</h3>
-              <p className="text-gray-200">
+            {/* 카드 1 */}
+            <div className="backdrop-blur-md bg-gray-900/30 p-8 rounded-xl border border-gray-800/50 transition-all duration-500 hover:transform hover:translate-y-[-5px] hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] group">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-2xl font-bold mb-6 shadow-[0_0_15px_rgba(99,102,241,0.5)] group-hover:shadow-[0_0_20px_rgba(99,102,241,0.7)] transition-all duration-300">
+                <span className="group-hover:scale-110 transition-transform duration-300">1</span>
+              </div>
+              <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-indigo-400 text-transparent bg-clip-text group-hover:from-blue-300 group-hover:to-indigo-300 transition-all duration-300">Join a Campaign</h3>
+              <p className="text-gray-200 group-hover:text-gray-100 transition-colors duration-300">
                 Browse our active community campaigns and join the ones that interest you the most. Each campaign focuses on a specific community or project.
               </p>
             </div>
             
-            <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 p-8 rounded-xl transition-all duration-300 hover:transform hover:translate-y-[-5px] border border-blue-500/20 shadow-lg">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-2xl font-bold mb-6 shadow-md">2</div>
-              <h3 className="text-xl font-bold mb-4 text-blue-300">Post Quality Content</h3>
-              <p className="text-gray-200">
+            {/* 카드 2 */}
+            <div className="backdrop-blur-md bg-gray-900/30 p-8 rounded-xl border border-gray-800/50 transition-all duration-500 hover:transform hover:translate-y-[-5px] hover:border-purple-500/30 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] group">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-2xl font-bold mb-6 shadow-[0_0_15px_rgba(139,92,246,0.5)] group-hover:shadow-[0_0_20px_rgba(139,92,246,0.7)] transition-all duration-300">
+                <span className="group-hover:scale-110 transition-transform duration-300">2</span>
+              </div>
+              <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text group-hover:from-purple-300 group-hover:to-pink-300 transition-all duration-300">Post Quality Content</h3>
+              <p className="text-gray-200 group-hover:text-gray-100 transition-colors duration-300">
                 Contribute valuable content about the campaign topic. Share insights, updates, educational material, or engaging discussions.
               </p>
             </div>
             
-            <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 p-8 rounded-xl transition-all duration-300 hover:transform hover:translate-y-[-5px] border border-blue-500/20 shadow-lg">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-2xl font-bold mb-6 shadow-md">3</div>
-              <h3 className="text-xl font-bold mb-4 text-blue-300">Earn Rewards</h3>
-              <p className="text-gray-200">
+            {/* 카드 3 */}
+            <div className="backdrop-blur-md bg-gray-900/30 p-8 rounded-xl border border-gray-800/50 transition-all duration-500 hover:transform hover:translate-y-[-5px] hover:border-pink-500/30 hover:shadow-[0_0_30px_rgba(236,72,153,0.3)] group">
+              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-indigo-600 rounded-full flex items-center justify-center text-2xl font-bold mb-6 shadow-[0_0_15px_rgba(236,72,153,0.5)] group-hover:shadow-[0_0_20px_rgba(236,72,153,0.7)] transition-all duration-300">
+                <span className="group-hover:scale-110 transition-transform duration-300">3</span>
+              </div>
+              <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-pink-400 to-indigo-400 text-transparent bg-clip-text group-hover:from-pink-300 group-hover:to-indigo-300 transition-all duration-300">Earn Rewards</h3>
+              <p className="text-gray-200 group-hover:text-gray-100 transition-colors duration-300">
                 Each post extends the campaign timer. When the timer runs out, the last contributor wins the campaign rewards. All active participants earn points.
               </p>
             </div>
@@ -498,28 +525,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-black/80 py-10 border-t border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4">
+      {/* 푸터 - 글래스모피즘 적용 */}
+      <footer className="bg-black/50 backdrop-blur-md py-10 border-t border-blue-900/30 relative overflow-hidden">
+        {/* 배경 효과 */}
+        <div className="absolute inset-0">
+          <div className="absolute bottom-0 right-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-64 h-64 bg-purple-600/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
+            <div className="mb-6 md:mb-0 group">
               <Image
                 src="/images/pulseLogoBlank.png"
                 alt="Pulse Logo"
                 width={100}
                 height={30}
+                className="transition-transform duration-300 group-hover:scale-105"
               />
-              <p className="mt-2 text-blue-300">Empowering communities through engagement</p>
+              <p className="mt-2 text-blue-300 group-hover:text-blue-200 transition-colors duration-300">Empowering communities through engagement</p>
             </div>
             <div className="flex space-x-6">
-              <a href="#" className="text-gray-300 hover:text-blue-400 transition">Twitter</a>
-              <a href="#" className="text-gray-300 hover:text-blue-400 transition">Discord</a>
-              <a href="#" className="text-gray-300 hover:text-blue-400 transition">Medium</a>
-              <a href="#" className="text-gray-300 hover:text-blue-400 transition">GitHub</a>
+              <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors duration-300 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-blue-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300">Twitter</a>
+              <a href="#" className="text-gray-300 hover:text-purple-400 transition-colors duration-300 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-purple-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300">Discord</a>
+              <a href="#" className="text-gray-300 hover:text-pink-400 transition-colors duration-300 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-pink-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300">Medium</a>
+              <a href="#" className="text-gray-300 hover:text-indigo-400 transition-colors duration-300 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-indigo-500 after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300">GitHub</a>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-            <p>© {new Date().getFullYear()} Pulse. All rights reserved.</p>
+            <p className="group">© {new Date().getFullYear()} <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text group-hover:from-blue-300 group-hover:to-purple-400 transition-all duration-300">Pulse</span>. All rights reserved.</p>
           </div>
         </div>
       </footer>
