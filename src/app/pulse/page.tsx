@@ -499,6 +499,12 @@ export default function PulseCommunity() {
               </svg>
               Important: Post on X after submission to be eligible for rewards.
             </p>
+            <p className="mt-3 text-center text-white-600 text-sm font-medium flex items-center justify-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm-.75-4.5a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zm0-6.75a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V5.25a.75.75 0 01.75-.75z" clipRule="evenodd" />
+              </svg>
+              Note: Duplicated submission is allowed! 
+            </p>
           </form>
           
           {/* 포스트 피드 - 글래스모피즘 적용 */}
