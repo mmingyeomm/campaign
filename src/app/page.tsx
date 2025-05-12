@@ -243,7 +243,7 @@ export default function Home() {
             </h1>
             <div className="w-24 h-1 mx-auto bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-8"></div>
             <p className="text-xl mb-8 max-w-3xl mx-auto text-gray-300 leading-relaxed backdrop-blur-sm bg-black/10 p-6 rounded-xl border border-gray-800/50">
-              Participate in community bootstrapping campaigns and earn rewards by posting quality content about your favorite projects.
+              Get rewarded for quality posts about projects you love.
             </p>
           </div>
         </div>
@@ -349,8 +349,8 @@ export default function Home() {
                         <div className="text-xs text-gray-400 uppercase tracking-wider">Participants</div>
                       </div>
                       <div className="backdrop-blur-md bg-gray-800/40 p-3 rounded-lg text-center border border-gray-700/50 group-hover:border-purple-500/30 transition-all duration-300">
-                        <div className="text-xl font-bold text-purple-300">{pulseCommunityData?.bountyAmount || '100'}</div>
-                        <div className="text-xs text-gray-400 uppercase tracking-wider">PULSE Tokens</div>
+                        <div className="text-xl font-bold text-purple-300">{pulseCommunityData?.bountyAmount ? parseFloat(pulseCommunityData.bountyAmount).toFixed(2) : '100.00'}</div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider">SOL</div>
                       </div>
                       <div className="backdrop-blur-md bg-gray-800/40 p-3 rounded-lg text-center border border-gray-700/50 group-hover:border-pink-500/30 transition-all duration-300">
                         <div className="text-xl font-bold text-pink-300">{pulseTimeLeft}</div>

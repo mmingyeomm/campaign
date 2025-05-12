@@ -130,7 +130,7 @@ export default function Round3Page() {
                  <div className="bg-gradient-to-br from-orange-900/30 to-red-900/40 p-6 rounded-lg border border-orange-700/50">
                     <h3 className="text-2xl font-semibold mb-4 text-white">Round Winner</h3>
                      <ul className="space-y-3 text-gray-300 list-disc list-inside">
-                       <li>Significant PULSE Token Prize</li>
+                       <li>Significant SOL Prize</li>
                        <li>Exclusive Round 3 Winner NFT</li>
                        <li>Featured spot in the Community Hall of Fame</li>
                        <li>Partner project bonuses (if applicable)</li>
@@ -140,7 +140,7 @@ export default function Round3Page() {
                  <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700">
                     <h3 className="text-2xl font-semibold mb-4 text-white">Active Participants</h3>
                     <ul className="space-y-3 text-gray-300 list-disc list-inside">
-                       <li>PULSE Tokens based on score/rank</li>
+                       <li>SOL based on score/rank</li>
                        <li>Participation Badges/NFTs</li>
                        <li>Points towards overall leaderboard</li>
                        <li>Bonus Objective Rewards</li>
