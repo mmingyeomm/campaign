@@ -493,18 +493,18 @@ export default function PulseCommunity() {
             </button>
             {!walletConnected && <p className="text-center text-purple-400 mt-2 text-sm">You must connect your wallet to post.</p>}
             {/* Warning about X post requirement */}
-            <p className="mt-3 text-center text-yellow-500 text-sm font-medium flex items-center justify-center gap-1.5">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" clipRule="evenodd" />
-              </svg>
-              Important: Post on X after submission to be eligible for rewards.
-            </p>
-            <p className="mt-3 text-center text-white-600 text-sm font-medium flex items-center justify-center gap-1.5">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm-.75-4.5a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zm0-6.75a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V5.25a.75.75 0 01.75-.75z" clipRule="evenodd" />
-              </svg>
-              Note: Duplicated submission is allowed! 
-            </p>
+            <p className="mt-3 text-center text-yellow-500 text-xl font-xl flex items-center justify-center gap-1.5">
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6">
+               <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" clipRule="evenodd" />
+             </svg>
+             Important: Post on X after submission to be eligible for rewards.
+           </p>
+           <p className="mt-3 text-center text-white-700 text-xl font-xl flex items-center justify-center gap-1.5">
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6">
+               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm-.75-4.5a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zm0-6.75a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V5.25a.75.75 0 01.75-.75z" clipRule="evenodd" />
+             </svg>
+             Note: Duplicated submission is allowed!
+           </p>
           </form>
           
           {/* 포스트 피드 - 글래스모피즘 적용 */}

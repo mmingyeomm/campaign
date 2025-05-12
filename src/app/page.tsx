@@ -276,11 +276,9 @@ export default function Home() {
           {/* 텍스트 콘텐츠 & 버튼 */}
           <div className="text-center md:text-left">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 text-transparent bg-clip-text">
-              Round 3 is Coming Soon!
+              Round 3 is live!
             </h2>
-            <p className="text-lg text-gray-300 mb-8">
-              Get ready for the next phase. More challenges, more rewards!
-            </p>
+            
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
               
               <Link 
