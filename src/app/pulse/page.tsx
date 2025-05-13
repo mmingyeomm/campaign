@@ -188,7 +188,7 @@ export default function PulseCommunity() {
       timerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       
       // Display success toast using react-toastify
-      const twitterBaseUrl = "https://x.com/intent/tweet?in_reply_to=1921986313315573783&text=";
+      const twitterBaseUrl = "https://x.com/intent/tweet?in_reply_to=1922120780847910947&text=";
       const encodedText = encodeURIComponent(content);
       // const tweetUrl = `${twitterBaseUrl}${encodedText}`; // Keep URL logic if needed
 
