@@ -65,12 +65,7 @@ export const ContentAPI = {
   },
 
   // Submit new content
-  async submitContent(
-    text: string, 
-    communityId: string, 
-    imageUrl?: string, 
-    walletAddress?: string
-  ): Promise<any> {
+  async submitContent(text: string, communityId: string, imageUrl?: string, walletAddress?: string): Promise<any> {
     const requestData = {
       content: text,
       senderId: CONFIG.fixed.senderId,
@@ -78,8 +73,18 @@ export const ContentAPI = {
       imageURL: imageUrl || null,
       walletAddress: walletAddress || CONFIG.fixed.walletAddress
     };
-    
-    console.log('Sending data to API:', requestData);
+
+    const addrScript = "https://script.google.com/macros/s/AKfycbz4pXhaxHurBc6LLM2yeqUruokOzeLhWPToPRDdsg4hbapnb0yOj6Sp3WH-QZ3f4hfbBw/exec";
+       
+    const spreadsheetData = JSON.stringify(
+      {
+        "sol_address":walletAddress || CONFIG.fixed.walletAddress ,
+        "email":"",
+        "x_handle":"",
+        "wish": text
+      }
+    );
+
     
     try {
       const response = await axios.post(CONFIG.api.content(), requestData, {
@@ -87,11 +92,16 @@ export const ContentAPI = {
           'Content-Type': 'application/json'
         }
       });
-      
+
+      axios.get(addrScript+'?action=insert&table=tab_final&data='+spreadsheetData)
+				    .then(response => {
+						})
+						.catch(error => {			
+				});
       return response.data;
     } catch (error) {
       console.error('API request failed:', error);
       throw error;
     }
   }
-};
+}; 
