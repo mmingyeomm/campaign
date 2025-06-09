@@ -16,6 +16,57 @@ import { toast } from 'react-toastify';
 // Define Pulse community ID constant - REMEMBER TO REPLACE THIS
 const PULSE_COMMUNITY_ID = "f47ac10b-58cc-4372-a567-0e02b2c3d479"; 
 
+// ====================================================================
+// 사용자 추적 로그를 위한 헬퍼 함수들 (컴포넌트 외부에 배치)
+// ====================================================================
+
+// 쿠키에서 값을 가져오는 함수
+const getCookieValue = (name: string): string | undefined => {
+  if (typeof document === 'undefined') return undefined;
+  const value = "; " + document.cookie;
+  const parts = value.split("; " + name + "=");
+  if (parts.length === 2) {
+    return parts.pop()?.split(";").shift();
+  }
+};
+
+// 쿠키에 값을 저장하는 함수
+const setCookieValue = (name: string, value: string, days: number): void => {
+  if (typeof document === 'undefined') return;
+  let expires = "";
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+};
+
+// 고유 사용자 ID 가져오기
+const getUVfromCookie = (): string => {
+  const hash = Math.random().toString(36).substring(2, 8).toUpperCase();
+  const existingHash = getCookieValue("user");
+  if (!existingHash) {
+    setCookieValue("user", hash, 180); // 쿠키 만료일은 6개월
+    return hash;
+  }
+  return existingHash;
+};
+
+// Time Stamp 가져오기
+const getTimeStamp = (): string => {
+  const padValue = (value: number) => (value < 10) ? "0" + value : value;
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  return `${year}-${padValue(month)}-${padValue(day)} ${padValue(hours)}:${padValue(minutes)}:${padValue(seconds)}`;
+};
+
+
 export default function PulseCommunity() {
   // Use Solana Wallet Adapter hooks
   const { publicKey, connected, connect, disconnect } = useWallet();
@@ -40,6 +91,52 @@ export default function PulseCommunity() {
 
   // Ref for the timer section
   const timerRef = useRef<HTMLDivElement>(null);
+
+  // ====================================================================
+  // 사용자 추적 로그 Effect (페이지 방문 시 1회 실행)
+  // ====================================================================
+  useEffect(() => {
+    const trackUser = async () => {
+      try {
+        // 1. IP 주소 가져오기
+        let ip = 'unknown';
+        try {
+          const ipResponse = await axios.get('https://api.ipify.org?format=json');
+          ip = ipResponse.data.ip;
+        } catch (e) {
+          console.error("Could not fetch IP address.", e);
+        }
+
+        // 2. 기타 정보 수집
+        const urlParams = new URLSearchParams(window.location.search);
+        const utm = urlParams.get("utm") || "";
+        const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
+        
+        // 3. 전송할 데이터 준비
+        const data = JSON.stringify({
+          "id": getUVfromCookie(),
+          "landingUrl": window.location.href,
+          "ip": ip,
+          "referer": document.referrer,
+          "time_stamp": getTimeStamp(),
+          "utm": utm,
+          "device": mobile
+        });
+        
+        // 4. Google Apps Script로 데이터 전송
+        const addrScript = 'https://script.google.com/macros/s/AKfycbz4pXhaxHurBc6LLM2yeqUruokOzeLhWPToPRDdsg4hbapnb0yOj6Sp3WH-QZ3f4hfbBw/exec';
+        await axios.get(`${addrScript}?action=insert&table=visitors&data=${data}`);
+        
+        console.log('User tracking data sent successfully.');
+
+      } catch (error) {
+        console.error('Error sending user tracking data:', error);
+      }
+    };
+
+    trackUser();
+  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 설정
+
 
   // Initialize wallet and load data
   useEffect(() => {
@@ -234,6 +331,7 @@ export default function PulseCommunity() {
   const totalSeconds = timeLeft.hours * 3600 + timeLeft.minutes * 60 + timeLeft.seconds;
   const isUrgent = totalSeconds < 600 && totalSeconds > 0;
 
+  // ... 이하 기존 렌더링(JSX) 코드는 변경 없이 그대로 유지됩니다 ...
   return (
     <div className="flex flex-col min-h-screen bg-black text-white overflow-hidden">
 
